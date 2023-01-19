@@ -1,15 +1,14 @@
 package com.abnergmf.votesapi.application.adapters.controller;
 
-import java.net.URI;
 import java.util.List;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import com.abnergmf.votesapi.application.adapters.controller.form.PautaForm;
 import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.dtos.PautaDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.PautaServicePort;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("pautas")
@@ -33,13 +31,11 @@ public class PautaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> criarPauta(
-        @RequestBody @Valid PautaForm pautaForm,
-        UriComponentsBuilder uriBuilder
+    public ResponseEntity<PautaDTO> criarPauta(
+        @RequestBody @Valid PautaForm pautaForm
     ) {
         Pauta pauta = pautaServicePort.criarPauta(pautaForm.toPautaDTO());
-        URI uri = uriBuilder.path("/").buildAndExpand(pauta).toUri();
-        return ResponseEntity.created(uri).build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -57,12 +53,8 @@ public class PautaController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> remover(@PathVariable Long id) throws Exception {
-        try {
-            pautaServicePort.removerPauta(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            throw new Exception();
-        }
+        pautaServicePort.removerPauta(id);
+        return ResponseEntity.ok().build();
     }
 
 }

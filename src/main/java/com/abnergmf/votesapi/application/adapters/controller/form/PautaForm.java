@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 public class PautaForm {
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "{nome.not.blank}")
     @Length(min = 1, max = 150)
     private String nome;
 

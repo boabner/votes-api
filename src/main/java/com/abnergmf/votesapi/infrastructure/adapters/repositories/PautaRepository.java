@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.abnergmf.votesapi.application.error.UserNotFoundException;
 import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.ports.repositories.PautaRepositoryPort;
 import com.abnergmf.votesapi.infrastructure.adapters.entities.PautaEntity;
@@ -25,17 +26,17 @@ public class PautaRepository  implements PautaRepositoryPort {
     }
 
     @Override
-    public Pauta getById(Long id) throws Exception {
-        Optional<PautaEntity> pautaEntityOptional = pautaRepositoryDAO.findById(id);
+    public Pauta getById(Long idPauta) throws Exception {
+        Optional<PautaEntity> pautaEntityOptional = pautaRepositoryDAO.findById(idPauta);
 
         if (pautaEntityOptional.isPresent()) {
             return pautaEntityOptional.get().toPauta();
         }
-        throw new Exception();
+        throw new UserNotFoundException(idPauta);
     }
 
     @Override
-    public void salvar(Pauta pauta) throws Exception {
+    public void salvar(Pauta pauta) {
         PautaEntity pautaEntity;
         if (!Objects.isNull(pauta.getId())) {
             Optional<PautaEntity> optionalPauta = pautaRepositoryDAO.findById(pauta.getId());
@@ -44,7 +45,7 @@ public class PautaRepository  implements PautaRepositoryPort {
                 pautaEntity.atualizar(pauta);
             }
             else {
-                throw new Exception();
+                return;
             }
         }
         else {
@@ -54,7 +55,7 @@ public class PautaRepository  implements PautaRepositoryPort {
     }
 
     @Override
-    public void remover(Pauta pauta) throws Exception {
+    public void remover(Pauta pauta) {
         PautaEntity pautaEntity;
         if (!Objects.isNull(pauta.getId())) {
             Optional<PautaEntity> optionalPauta = pautaRepositoryDAO.findById(pauta.getId());
@@ -62,7 +63,7 @@ public class PautaRepository  implements PautaRepositoryPort {
                 pautaEntity = pautaRepositoryDAO.findById(pauta.getId()).get();
                 pautaRepositoryDAO.delete(pautaEntity);
             }
+            throw new UserNotFoundException(pauta.getId());
         }
-        throw new Exception();
     }
 }
