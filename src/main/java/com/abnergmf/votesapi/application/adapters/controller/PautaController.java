@@ -8,6 +8,9 @@ import com.abnergmf.votesapi.domain.dtos.PautaDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.PautaServicePort;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("pautas")
 public class PautaController {
-
+    private static final Logger logger = LoggerFactory.getLogger(PautaController.class.getName());
     private final PautaServicePort pautaServicePort;
 
     public PautaController(PautaServicePort pautaServicePort) {
@@ -35,13 +38,20 @@ public class PautaController {
         @RequestBody @Valid PautaForm pautaForm
     ) {
         Pauta pauta = pautaServicePort.criarPauta(pautaForm.toPautaDTO());
+
+        logger.info("Pauta \"" + pauta.getNome() + "\" criada na base.");
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<?> atualizarPauta(@PathVariable Long id, @RequestBody @Valid PautaForm pautaForm) throws Exception{
+
         Pauta pauta = pautaServicePort.atualizarPauta(id, pautaForm.toPautaDTO());
+
+        logger.info("Pauta \"" + id + "\" atualizada na base.");
+
         return ResponseEntity.ok(pauta);
     }
 
@@ -53,7 +63,11 @@ public class PautaController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> remover(@PathVariable Long id) throws Exception {
+
         pautaServicePort.removerPauta(id);
+
+        logger.info("Pauta \"" + id + "\" removida da base.");
+
         return ResponseEntity.ok().build();
     }
 

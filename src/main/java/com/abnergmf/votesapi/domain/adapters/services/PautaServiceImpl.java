@@ -1,10 +1,8 @@
 package com.abnergmf.votesapi.domain.adapters.services;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.abnergmf.votesapi.application.error.UserNotFoundException;
 import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.dtos.PautaDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.PautaServicePort;
@@ -36,10 +34,6 @@ public class PautaServiceImpl implements PautaServicePort {
 
         Pauta pauta = pautaRepository.getById(idPauta);
 
-        if (Objects.isNull(pauta)) {
-            throw new UserNotFoundException(idPauta);
-        }
-
         pauta.setNome(pautaDTO.getNome());
 
         pautaRepository.salvar(pauta);
@@ -52,9 +46,6 @@ public class PautaServiceImpl implements PautaServicePort {
 
         Pauta pauta = pautaRepository.getById(idPauta);
 
-        if (Objects.isNull(pauta)) {
-            throw new UserNotFoundException(idPauta);
-        }
         pautaRepository.remover(pauta);
     }
 }
