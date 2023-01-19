@@ -1,7 +1,6 @@
 package com.abnergmf.votesapi.domain.adapters.services;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.abnergmf.votesapi.domain.Pauta;
@@ -35,10 +34,6 @@ public class PautaServiceImpl implements PautaServicePort {
 
         Pauta pauta = pautaRepository.getById(idPauta);
 
-        if (Objects.isNull(pauta)) {
-            throw new Exception();
-        }
-
         pauta.setNome(pautaDTO.getNome());
 
         pautaRepository.salvar(pauta);
@@ -48,11 +43,9 @@ public class PautaServiceImpl implements PautaServicePort {
 
     @Override
     public void removerPauta(Long idPauta) throws Exception {
+
         Pauta pauta = pautaRepository.getById(idPauta);
 
-        if (Objects.isNull(pauta)) {
-            throw new Exception();
-        }
         pautaRepository.remover(pauta);
     }
 }
