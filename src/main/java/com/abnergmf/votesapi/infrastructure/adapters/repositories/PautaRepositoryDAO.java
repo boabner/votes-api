@@ -1,14 +1,15 @@
 package com.abnergmf.votesapi.infrastructure.adapters.repositories;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import com.abnergmf.votesapi.infrastructure.adapters.entities.PautaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PautaRepositoryDAO extends JpaRepository<PautaEntity, UUID> {
+public interface PautaRepositoryDAO extends JpaRepository<PautaEntity, Long> {
 
-    Optional<PautaEntity> findById();
+    @Override
+    Optional<PautaEntity> findById(Long id);
 }

@@ -26,7 +26,7 @@ public class PautaRepository  implements PautaRepositoryPort {
 
     @Override
     public Pauta getById(Long id) throws Exception {
-        Optional<PautaEntity> pautaEntityOptional = pautaRepositoryDAO.findById();
+        Optional<PautaEntity> pautaEntityOptional = pautaRepositoryDAO.findById(id);
 
         if (pautaEntityOptional.isPresent()) {
             return pautaEntityOptional.get().toPauta();
@@ -35,11 +35,17 @@ public class PautaRepository  implements PautaRepositoryPort {
     }
 
     @Override
-    public void salvar(Pauta pauta) {
+    public void salvar(Pauta pauta) throws Exception {
         PautaEntity pautaEntity;
         if (!Objects.isNull(pauta.getId())) {
-            pautaEntity = pautaRepositoryDAO.findById(pauta.getId()).get();
-            pautaEntity.atualizar(pauta);
+            Optional<PautaEntity> optionalPauta = pautaRepositoryDAO.findById(pauta.getId());
+            if (optionalPauta.isPresent()) {
+                pautaEntity = optionalPauta.get();
+                pautaEntity.atualizar(pauta);
+            }
+            else {
+                throw new Exception();
+            }
         }
         else {
             pautaEntity = new PautaEntity(pauta);
@@ -51,11 +57,12 @@ public class PautaRepository  implements PautaRepositoryPort {
     public void remover(Pauta pauta) throws Exception {
         PautaEntity pautaEntity;
         if (!Objects.isNull(pauta.getId())) {
-            pautaEntity = pautaRepositoryDAO.findById(pauta.getId()).get();
-            pautaRepositoryDAO.delete(pautaEntity);
+            Optional<PautaEntity> optionalPauta = pautaRepositoryDAO.findById(pauta.getId());
+            if (optionalPauta.isPresent()) {
+                pautaEntity = pautaRepositoryDAO.findById(pauta.getId()).get();
+                pautaRepositoryDAO.delete(pautaEntity);
+            }
         }
-        else {
-            throw new Exception();
-        }
+        throw new Exception();
     }
 }

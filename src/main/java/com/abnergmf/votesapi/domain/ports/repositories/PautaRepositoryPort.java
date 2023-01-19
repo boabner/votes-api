@@ -6,6 +6,6 @@ import com.abnergmf.votesapi.domain.Pauta;
 public interface PautaRepositoryPort {
     List<Pauta> listarTodos();
     Pauta getById(Long id) throws Exception;
-    void salvar(Pauta pauta);
+    void salvar(Pauta pauta) throws Exception;
     void remover(Pauta pauta) throws Exception;
 }

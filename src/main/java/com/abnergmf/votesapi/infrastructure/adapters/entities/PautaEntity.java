@@ -1,21 +1,20 @@
 package com.abnergmf.votesapi.infrastructure.adapters.entities;
 
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.abnergmf.votesapi.domain.Pauta;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Pauta")
 public class PautaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String nome;
 
@@ -27,11 +26,11 @@ public class PautaEntity {
         this.nome = pauta.getNome();
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,7 +43,7 @@ public class PautaEntity {
     }
 
     public Pauta toPauta() {
-        return new Pauta();
+        return new Pauta(id, nome);
     }
     public void atualizar(Pauta pauta) {
         this.nome = pauta.getNome();

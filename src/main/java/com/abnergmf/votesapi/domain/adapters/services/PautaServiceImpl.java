@@ -24,19 +24,26 @@ public class PautaServiceImpl implements PautaServicePort {
     }
 
     @Override
-    public void criarPauta(PautaDTO pautaDTO) {
-        pautaRepository.salvar(new Pauta(pautaDTO));
+    public Pauta criarPauta(PautaDTO pautaDTO) {
+        Pauta pauta = new Pauta(pautaDTO);
+        pautaRepository.salvar(pauta);
+        return pauta;
     }
 
     @Override
-    public void atualizarPauta(Long idPauta, PautaDTO pautaDTO) throws Exception {
+    public Pauta atualizarPauta(Long idPauta, PautaDTO pautaDTO) throws Exception {
 
         Pauta pauta = pautaRepository.getById(idPauta);
 
         if (Objects.isNull(pauta)) {
             throw new Exception();
         }
+
+        pauta.setNome(pautaDTO.getNome());
+
         pautaRepository.salvar(pauta);
+
+        return pauta;
     }
 
     @Override
