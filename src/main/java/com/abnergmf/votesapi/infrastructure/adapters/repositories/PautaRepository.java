@@ -46,7 +46,7 @@ public class PautaRepository  implements PautaRepositoryPort {
     }
 
     @Override
-    public Pauta salvar(Pauta pauta) {
+    public Pauta persistir(Pauta pauta) {
         PautaEntity pautaEntity;
         if (!Objects.isNull(pauta.getId())) {
             Optional<PautaEntity> optionalPauta = pautaRepositoryDAO.findById(pauta.getId());

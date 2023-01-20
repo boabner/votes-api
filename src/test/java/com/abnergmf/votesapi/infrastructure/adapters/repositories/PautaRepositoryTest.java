@@ -87,7 +87,7 @@ public class PautaRepositoryTest{
         Long idPauta = 1L;
         Pauta pauta = pautaRepository.getById(idPauta);
 
-        Pauta pautaSalva = pautaRepository.salvar(pauta);
+        Pauta pautaSalva = pautaRepository.persistir(pauta);
 
         Assert.assertEquals(pauta, pautaSalva);
     }
@@ -97,7 +97,7 @@ public class PautaRepositoryTest{
 
         Long idPauta = 5L;
         Pauta pauta = pautaRepository.getById(idPauta);
-        pautaRepository.salvar(pauta);
+        pautaRepository.persistir(pauta);
 
     }
 

@@ -3,7 +3,6 @@ package com.abnergmf.votesapi.application.adapters.controller.form;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.abnergmf.votesapi.domain.dtos.PautaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

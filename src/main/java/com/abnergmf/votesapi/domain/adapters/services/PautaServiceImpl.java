@@ -26,7 +26,7 @@ public class PautaServiceImpl implements PautaServicePort {
     @Override
     public Pauta criarPauta(PautaDTO pautaDTO) {
         Pauta pauta = new Pauta(pautaDTO);
-        pautaRepository.salvar(pauta);
+        pautaRepository.persistir(pauta);
 
         logger.info("Pauta \"" + pauta.getNome() + "\" criada na base.");
 
@@ -40,7 +40,7 @@ public class PautaServiceImpl implements PautaServicePort {
 
         pauta.setNome(pautaDTO.getNome());
 
-        pautaRepository.salvar(pauta);
+        pautaRepository.persistir(pauta);
 
         logger.info("Pauta \"" + id + "\" atualizada na base.");
 

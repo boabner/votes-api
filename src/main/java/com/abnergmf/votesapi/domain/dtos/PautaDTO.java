@@ -1,7 +1,5 @@
 package com.abnergmf.votesapi.domain.dtos;
 
-import com.abnergmf.votesapi.domain.Pauta;
-
 public class PautaDTO {
 
     private Long id;
