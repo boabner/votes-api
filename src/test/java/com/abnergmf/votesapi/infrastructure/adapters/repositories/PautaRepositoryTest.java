@@ -87,7 +87,7 @@ public class PautaRepositoryTest{
         Long idPauta = 1L;
         Pauta pauta = pautaRepository.getById(idPauta);
 
-        Pauta pautaSalva = pautaRepository.persistir(pauta);
+        Pauta pautaSalva = pautaRepository.salvar(pauta);
 
         Assert.assertEquals(pauta, pautaSalva);
     }
@@ -97,7 +97,27 @@ public class PautaRepositoryTest{
 
         Long idPauta = 5L;
         Pauta pauta = pautaRepository.getById(idPauta);
-        pautaRepository.persistir(pauta);
+        pautaRepository.salvar(pauta);
+
+    }
+
+    @Test
+    public void deveRetornarPautaAoAtualizar() {
+
+        Long idPauta = 1L;
+        Pauta pauta = pautaRepository.getById(idPauta);
+
+        Pauta pautaSalva = pautaRepository.atualizar(pauta);
+
+        Assert.assertEquals(pauta, pautaSalva);
+    }
+
+    @Test(expected = VoteAPIObjectNotFoundException.class)
+    public void deveCairNaVoteAPIObjectNotFoundExceptionAoTentarAtualizarPauta() {
+
+        Long idPauta = -1L;
+        Pauta pauta = pautaRepository.getById(idPauta);
+        pautaRepository.atualizar(pauta);
 
     }
 

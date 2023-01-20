@@ -1,12 +1,9 @@
 package com.abnergmf.votesapi.domain.adapters.services;
 
-import static com.abnergmf.votesapi.domain.Sessao.TEMPO_SESSAO_ABERTA_DEFAULT;
-
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.abnergmf.votesapi.application.adapters.controller.SessaoController;
 import com.abnergmf.votesapi.application.adapters.converter.SessaoAtivaDTOConverter;
 import com.abnergmf.votesapi.application.adapters.converter.SessaoDTOConverter;
 import com.abnergmf.votesapi.application.util.DateUtil;
@@ -15,8 +12,6 @@ import com.abnergmf.votesapi.domain.dtos.SessaoAtivaDTO;
 import com.abnergmf.votesapi.domain.dtos.SessaoDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.SessaoServicePort;
 import com.abnergmf.votesapi.domain.ports.repositories.SessaoRepositoryPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SessaoServiceImpl implements SessaoServicePort {
 
@@ -72,13 +67,13 @@ public class SessaoServiceImpl implements SessaoServicePort {
     @Override
     public List<SessaoDTO> listarSessaos() {
         List<Sessao> listSessaos = sessaoRepository.listarTodos();
-        return listSessaos.stream().map(sessaoDTOConverter::sessaoFormToSessaoDTO).collect(Collectors.toList());
+        return listSessaos.stream().map(sessaoDTOConverter::sessaoToSessaoDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<SessaoAtivaDTO> listarSessoesAtivas() {
         List<Sessao> listSessaos = sessaoRepository.listarSessoesAtivas();
-        return listSessaos.stream().map(sessaoAtivaDTOConverter::toSessaoAtivaDTO).collect(Collectors.toList());
+        return listSessaos.stream().map(sessaoAtivaDTOConverter::sessaoToSessaoAtivaDTO).collect(Collectors.toList());
     }
 
 }

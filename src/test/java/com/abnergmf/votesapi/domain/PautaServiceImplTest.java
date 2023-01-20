@@ -30,7 +30,8 @@ public class PautaServiceImplTest {
         Pauta pauta = new Pauta(1L, "Pauta para teste");
         PautaDTO pautaDTO = new PautaDTO(1L, "PautaDTO para teste");
 
-        when(pautaRepository.persistir(pauta)).thenReturn(pauta);
+        when(pautaRepository.salvar(pauta)).thenReturn(pauta);
+        when(pautaRepository.atualizar(pauta)).thenReturn(pauta);
     }
 
     @Test

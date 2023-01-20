@@ -24,7 +24,7 @@ public class SessaoForm {
     }
 
     public Date getDataEncerramento() {
-        return DateUtil.getDataValidada(dataEncerramento);
+        return DateUtil.converterStringEmData(dataEncerramento);
     }
 
 }

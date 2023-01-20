@@ -46,23 +46,35 @@ public class PautaRepository  implements PautaRepositoryPort {
     }
 
     @Override
-    public Pauta persistir(Pauta pauta) {
-        PautaEntity pautaEntity;
+    public Pauta salvar(Pauta pauta) {
+
+        PautaEntity pautaEntity = pautaConverter.toPautaEntity(pauta);
+
+        pautaRepositoryDAO.save(pautaEntity);
+
+        return pauta;
+    }
+
+    @Override
+    public Pauta atualizar(Pauta pauta) {
         if (!Objects.isNull(pauta.getId())) {
+
+            PautaEntity pautaEntity;
             Optional<PautaEntity> optionalPauta = pautaRepositoryDAO.findById(pauta.getId());
+
             if (optionalPauta.isPresent()) {
+
                 pautaEntity = optionalPauta.get();
                 pautaEntity.atualizar(pauta);
+
+                pautaRepositoryDAO.save(pautaEntity);
             }
             else {
                 logger.info("Pauta com id " + pauta.getId() + " não encontrado.");
                 throw new VoteAPIObjectNotFoundException("Pauta", pauta.getId());
             }
+
         }
-        else {
-            pautaEntity = pautaConverter.toPautaEntity(pauta);
-        }
-        pautaRepositoryDAO.save(pautaEntity);
         return pauta;
     }
 

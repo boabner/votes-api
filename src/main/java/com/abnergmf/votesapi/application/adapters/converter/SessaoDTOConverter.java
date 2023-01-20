@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SessaoDTOConverter {
 
-    public SessaoDTO sessaoFormToSessaoDTO(SessaoForm sessaoForm) {
+    public SessaoDTO sessaoToSessaoDTO(SessaoForm sessaoForm) {
         return new SessaoDTO(sessaoForm.getPautaId(), sessaoForm.getDataEncerramento());
     }
 
-    public SessaoDTO sessaoFormToSessaoDTO(Sessao sessao) {
+    public SessaoDTO sessaoToSessaoDTO(Sessao sessao) {
         return new SessaoDTO(sessao.getId(), sessao.getPautaId(), sessao.getDataCriacao(), sessao.getDataEncerramento());
     }
 

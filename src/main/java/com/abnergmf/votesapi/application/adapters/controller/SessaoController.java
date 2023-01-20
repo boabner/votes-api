@@ -38,7 +38,7 @@ public class SessaoController {
             @RequestBody @Valid SessaoForm sessaoForm
     ) {
         sessaoServicePort.abrirSessao(
-                sessaoServicePort.prepararAberturaSessao(sessaoFormConverter.sessaoFormToSessaoDTO(sessaoForm))
+                sessaoServicePort.prepararAberturaSessao(sessaoFormConverter.sessaoToSessaoDTO(sessaoForm))
         );
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -1,5 +1,6 @@
 package com.abnergmf.votesapi.infrastructure.adapters.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,13 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.Sessao;
-import org.springframework.data.util.Lazy;
 
 @Entity
 @Table(name = "Sessao")
-public class SessaoEntity {
+public class SessaoEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

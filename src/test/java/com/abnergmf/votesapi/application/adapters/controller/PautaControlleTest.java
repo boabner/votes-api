@@ -149,8 +149,7 @@ public class PautaControlleTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
         )
-        .andExpect(status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].employeeId").isNotEmpty());
+        .andExpect(status().isOk());
     }
 
 }

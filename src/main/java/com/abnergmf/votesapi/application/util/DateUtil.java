@@ -6,14 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import com.abnergmf.votesapi.application.error.FormatDateConverterException;
-import com.abnergmf.votesapi.application.error.NullObjectVotesAPIException;
 
 public class DateUtil {
 
-    public static Date getDataValidada(String data)  {
+    public static Date converterStringEmData(String data)  {
         if (data != null) {
             try {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
@@ -43,6 +41,21 @@ public class DateUtil {
         } catch (ParseException e) {
             throw new FormatDateConverterException(e);
         }
+    }
+
+    public static String converterDataEmString(Date data) {
+        if (data != null) {
+            try {
+
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
+
+                return formatter.format(data);
+
+            } catch (Exception e) {
+                throw new FormatDateConverterException(data);
+            }
+        }
+        return null;
     }
 
 }
