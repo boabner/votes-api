@@ -1,6 +1,7 @@
 package com.abnergmf.votesapi.infrastructure.config;
 
 import com.abnergmf.votesapi.application.adapters.converter.PautaDTOConverter;
+import com.abnergmf.votesapi.application.adapters.converter.SessaoAtivaDTOConverter;
 import com.abnergmf.votesapi.application.adapters.converter.SessaoDTOConverter;
 import com.abnergmf.votesapi.domain.adapters.services.PautaServiceImpl;
 import com.abnergmf.votesapi.domain.adapters.services.SessaoServiceImpl;
@@ -20,8 +21,9 @@ public class BeanConfiguration {
     }
 
     @Bean
-    SessaoServicePort sessaoService(SessaoRepositoryPort sessaoRepositoryPort, SessaoDTOConverter sessaoDTOConverter) {
-        return new SessaoServiceImpl(sessaoRepositoryPort, sessaoDTOConverter);
+    SessaoServicePort sessaoService(SessaoRepositoryPort sessaoRepositoryPort, SessaoDTOConverter sessaoDTOConverter,
+                                    SessaoAtivaDTOConverter sessaoAtivaDTOConverter) {
+        return new SessaoServiceImpl(sessaoRepositoryPort, sessaoDTOConverter, sessaoAtivaDTOConverter);
     }
 
 }

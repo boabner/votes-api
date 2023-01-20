@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import com.abnergmf.votesapi.application.adapters.controller.form.SessaoForm;
 import com.abnergmf.votesapi.application.adapters.converter.SessaoDTOConverter;
 import com.abnergmf.votesapi.domain.Sessao;
+import com.abnergmf.votesapi.domain.dtos.SessaoAtivaDTO;
 import com.abnergmf.votesapi.domain.dtos.SessaoDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.SessaoServicePort;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,11 @@ public class SessaoController {
     @GetMapping
     List<SessaoDTO> listarSessaos() {
         return sessaoServicePort.listarSessaos();
+    }
+
+    @GetMapping("/listar-ativas")
+    List<SessaoAtivaDTO> listarSessoesAtivas() {
+        return sessaoServicePort.listarSessoesAtivas();
     }
 
     @DeleteMapping("/{id}")
