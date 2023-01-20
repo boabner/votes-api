@@ -4,6 +4,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.abnergmf.votesapi.application.adapters.controller.form.SessaoAlterarForm;
 import com.abnergmf.votesapi.application.adapters.controller.form.SessaoForm;
 import com.abnergmf.votesapi.application.adapters.converter.SessaoDTOConverter;
 import com.abnergmf.votesapi.domain.Sessao;
@@ -33,18 +34,20 @@ public class SessaoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<SessaoDTO> criarSessao(
+    public ResponseEntity<SessaoDTO> abrirSessao(
             @RequestBody @Valid SessaoForm sessaoForm
     ) {
-        sessaoServicePort.criarSessao(sessaoFormConverter.toSessaoDTO(sessaoForm));
+        sessaoServicePort.abrirSessao(
+                sessaoServicePort.prepararAberturaSessao(sessaoFormConverter.sessaoFormToSessaoDTO(sessaoForm))
+        );
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> atualizarSessao(@PathVariable Long id, @RequestBody @Valid SessaoForm sessaoForm) {
+    public ResponseEntity<?> atualizarSessao(@PathVariable Long id, @RequestBody @Valid SessaoAlterarForm sessaoForm) {
 
-        Sessao sessao = sessaoServicePort.atualizarSessao(id, sessaoFormConverter.toSessaoDTO(sessaoForm));
+        Sessao sessao = sessaoServicePort.atualizarSessao(id, sessaoFormConverter.alterarFormtoSessaoDTO(sessaoForm));
 
         return ResponseEntity.ok(sessao);
     }

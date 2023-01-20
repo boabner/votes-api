@@ -11,6 +11,8 @@ public class Sessao {
     private Date dataEncerramento;
     private Long pautaId;
 
+    public static int TEMPO_SESSAO_ABERTA_DEFAULT = 1;
+
     public Sessao(Long id, Date dataCriacao, Date dataEncerramento, Long pautaId) {
         this.id = id;
         this.dataCriacao = dataCriacao;

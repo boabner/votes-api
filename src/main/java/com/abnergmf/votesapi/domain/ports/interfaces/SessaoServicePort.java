@@ -10,7 +10,8 @@ public interface SessaoServicePort {
 
     List<SessaoDTO> listarSessaos();
     List<SessaoAtivaDTO> listarSessoesAtivas();
-    Sessao criarSessao(SessaoDTO sessaoDTO);
+    Sessao abrirSessao(SessaoDTO sessaoDTO);
+    SessaoDTO prepararAberturaSessao(SessaoDTO sessaoDTO);
     Sessao atualizarSessao(Long idSessao, SessaoDTO sessaoDTO);
     Boolean removerSessao(Long idSessao);
 

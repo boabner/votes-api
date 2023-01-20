@@ -46,6 +46,7 @@ public class SessaoRepository implements SessaoRepositoryPort {
 
     @Override
     public Sessao getById(Long idSessao) {
+
         Optional<SessaoEntity> sessaoEntityOptional = sessaoRepositoryDAO.findById(idSessao);
 
         if (sessaoEntityOptional.isPresent()) {
@@ -58,33 +59,43 @@ public class SessaoRepository implements SessaoRepositoryPort {
     }
 
     @Override
-    public Sessao persistir(Sessao sessao) {
+    public Sessao salvar(Sessao sessao) {
+        SessaoEntity sessaoEntity;
+        Optional<PautaEntity> optionalPautaEntity = pautaRepositoryDAO.findById(sessao.getPautaId());
+        if (optionalPautaEntity.isPresent()) {
+            sessaoEntity = new SessaoEntity();
+            sessaoEntity.setPautaEntity(optionalPautaEntity.get());
+            sessaoEntity.setDataCriacao(new Date());
+            sessaoEntity.setDataEncerramento(sessao.getDataEncerramento());
+        }
+        else {
+            logger.info("Pauta com id " + sessao.getPautaId() + " não encontrada.");
+            throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
+        }
+        sessaoRepositoryDAO.save(sessaoEntity);
+        return sessao;
+    }
+
+    @Override
+    public Sessao atualizar(Sessao sessao) {
+
         SessaoEntity sessaoEntity;
         if (!Objects.isNull(sessao.getId())) {
+
             Optional<SessaoEntity> optionalSessao = sessaoRepositoryDAO.findById(sessao.getId());
+
             if (optionalSessao.isPresent()) {
+
                 sessaoEntity = optionalSessao.get();
                 sessaoEntity.atualizar(sessao);
+                sessaoRepositoryDAO.save(sessaoEntity);
+
             }
             else {
                 logger.info("Sessao com id " + sessao.getId() + " não encontrado.");
                 throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
             }
         }
-        else {
-            Optional<PautaEntity> optionalPautaEntity = pautaRepositoryDAO.findById(sessao.getPautaId());
-            if (optionalPautaEntity.isPresent()) {
-                sessaoEntity = new SessaoEntity();
-                sessaoEntity.setPautaEntity(optionalPautaEntity.get());
-                sessaoEntity.setDataCriacao(sessao.getDataCriacao());
-                sessaoEntity.setDataEncerramento(sessao.getDataEncerramento());
-            }
-            else {
-                logger.info("Pauta com id " + sessao.getPautaId() + " não encontrada.");
-                throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
-            }
-        }
-        sessaoRepositoryDAO.save(sessaoEntity);
         return sessao;
     }
 

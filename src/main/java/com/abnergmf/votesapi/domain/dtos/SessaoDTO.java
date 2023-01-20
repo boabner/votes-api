@@ -11,6 +11,9 @@ public class SessaoDTO {
     private Date dataEncerramento;
     private Long pautaId;
 
+    public SessaoDTO(Date dataEncerramento) {
+        this.dataEncerramento = dataEncerramento;
+    }
 
     public SessaoDTO(Long id, Long pautaId, Date dataCriacao, Date dataEncerramento) {
         this.id = id;
@@ -19,9 +22,8 @@ public class SessaoDTO {
         this.pautaId = pautaId;
     }
 
-    public SessaoDTO(Long pautaId, Date dataCriacao, Date dataEncerramento) {
+    public SessaoDTO(Long pautaId, Date dataEncerramento) {
         this.pautaId = pautaId;
-        this.dataCriacao = dataCriacao;
         this.dataEncerramento = dataEncerramento;
     }
 
@@ -39,6 +41,10 @@ public class SessaoDTO {
 
     public Date getDataEncerramento() {
         return dataEncerramento;
+    }
+
+    public void setDataEncerramento(Date dataEncerramento) {
+        this.dataEncerramento = dataEncerramento;
     }
 
     public Long getPautaId() {

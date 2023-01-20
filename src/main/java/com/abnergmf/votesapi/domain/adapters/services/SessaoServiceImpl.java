@@ -1,11 +1,15 @@
 package com.abnergmf.votesapi.domain.adapters.services;
 
+import static com.abnergmf.votesapi.domain.Sessao.TEMPO_SESSAO_ABERTA_DEFAULT;
+
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.abnergmf.votesapi.application.adapters.controller.SessaoController;
 import com.abnergmf.votesapi.application.adapters.converter.SessaoAtivaDTOConverter;
 import com.abnergmf.votesapi.application.adapters.converter.SessaoDTOConverter;
+import com.abnergmf.votesapi.application.util.DateUtil;
 import com.abnergmf.votesapi.domain.Sessao;
 import com.abnergmf.votesapi.domain.dtos.SessaoAtivaDTO;
 import com.abnergmf.votesapi.domain.dtos.SessaoDTO;
@@ -16,7 +20,6 @@ import org.slf4j.LoggerFactory;
 
 public class SessaoServiceImpl implements SessaoServicePort {
 
-    private static final Logger logger = LoggerFactory.getLogger(SessaoController.class.getName());
     private final SessaoRepositoryPort sessaoRepository;
     private final SessaoDTOConverter sessaoDTOConverter;
     private final SessaoAtivaDTOConverter sessaoAtivaDTOConverter;
@@ -28,11 +31,18 @@ public class SessaoServiceImpl implements SessaoServicePort {
     }
 
     @Override
-    public Sessao criarSessao(SessaoDTO sessaoDTO) {
-        Sessao sessao = new Sessao(sessaoDTO);
-        sessaoRepository.persistir(sessao);
+    public SessaoDTO prepararAberturaSessao(SessaoDTO sessaoDTO) {
+        if (sessaoDTO.getDataEncerramento() == null) {
+            sessaoDTO.setDataEncerramento(DateUtil.acrescentarMinutosNaData(new Date(), Sessao.TEMPO_SESSAO_ABERTA_DEFAULT));
+        }
+        return sessaoDTO;
+    }
 
-        logger.info("Sessao \"" + sessao.getId() + "\" criada na base.");
+    @Override
+    public Sessao abrirSessao(SessaoDTO sessaoDTO) {
+        Sessao sessao = new Sessao(sessaoDTO);
+
+        sessaoRepository.salvar(sessao);
 
         return sessao;
     }
@@ -44,9 +54,7 @@ public class SessaoServiceImpl implements SessaoServicePort {
 
         sessao.setDataEncerramento(sessaoDTO.getDataEncerramento());
 
-        sessaoRepository.persistir(sessao);
-
-        logger.info("Sessao \"" + id + "\" atualizada na base.");
+        sessaoRepository.atualizar(sessao);
 
         return sessao;
     }
@@ -58,15 +66,13 @@ public class SessaoServiceImpl implements SessaoServicePort {
 
         boolean isRemoved = sessaoRepository.remover(sessao);
 
-        logger.info("Sessao \"" + id + "\" removida da base.");
-
         return isRemoved;
     }
 
     @Override
     public List<SessaoDTO> listarSessaos() {
         List<Sessao> listSessaos = sessaoRepository.listarTodos();
-        return listSessaos.stream().map(sessaoDTOConverter::toSessaoDTO).collect(Collectors.toList());
+        return listSessaos.stream().map(sessaoDTOConverter::sessaoFormToSessaoDTO).collect(Collectors.toList());
     }
 
     @Override
