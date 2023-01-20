@@ -1,6 +1,5 @@
 package com.abnergmf.votesapi.application.error;
 
-
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,9 +32,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiErrorMessage, apiErrorMessage.getStatus());
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(VoteAPIObjectNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(
-            EntityNotFoundException exception, WebRequest request) {
+            VoteAPIObjectNotFoundException exception, WebRequest request) {
 
         ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
 

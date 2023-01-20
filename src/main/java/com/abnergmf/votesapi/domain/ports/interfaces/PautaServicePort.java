@@ -9,7 +9,7 @@ public interface PautaServicePort {
 
     List<PautaDTO> listarPautas();
     Pauta criarPauta(PautaDTO pautaDTO);
-    Pauta atualizarPauta(Long idPauta, PautaDTO pautaDTO) throws Exception;
-    void removerPauta(Long idPauta) throws Exception;
+    Pauta atualizarPauta(Long idPauta, PautaDTO pautaDTO);
+    Boolean removerPauta(Long idPauta);
 
 }

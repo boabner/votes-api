@@ -30,8 +30,4 @@ public class Pauta {
         this.nome = nome;
     }
 
-    public PautaDTO toPautaDTO() {
-        return new PautaDTO(this.id, this.nome);
-    }
-
 }
