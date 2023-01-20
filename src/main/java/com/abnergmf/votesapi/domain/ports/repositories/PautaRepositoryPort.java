@@ -7,5 +7,6 @@ public interface PautaRepositoryPort {
     List<Pauta> listarTodos();
     Pauta getById(Long id);
     Pauta salvar(Pauta pauta);
+    Pauta atualizar(Pauta pauta);
     Boolean remover(Pauta pauta);
 }

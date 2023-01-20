@@ -101,4 +101,24 @@ public class PautaRepositoryTest{
 
     }
 
+    @Test
+    public void deveRetornarPautaAoAtualizar() {
+
+        Long idPauta = 1L;
+        Pauta pauta = pautaRepository.getById(idPauta);
+
+        Pauta pautaSalva = pautaRepository.atualizar(pauta);
+
+        Assert.assertEquals(pauta, pautaSalva);
+    }
+
+    @Test(expected = VoteAPIObjectNotFoundException.class)
+    public void deveCairNaVoteAPIObjectNotFoundExceptionAoTentarAtualizarPauta() {
+
+        Long idPauta = -1L;
+        Pauta pauta = pautaRepository.getById(idPauta);
+        pautaRepository.atualizar(pauta);
+
+    }
+
 }

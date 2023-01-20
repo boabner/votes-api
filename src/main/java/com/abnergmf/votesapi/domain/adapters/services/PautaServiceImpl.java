@@ -9,12 +9,9 @@ import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.dtos.PautaDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.PautaServicePort;
 import com.abnergmf.votesapi.domain.ports.repositories.PautaRepositoryPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PautaServiceImpl implements PautaServicePort {
 
-    private static final Logger logger = LoggerFactory.getLogger(PautaController.class.getName());
     private final PautaRepositoryPort pautaRepository;
     private final PautaDTOConverter pautaDTOConverter;
 
@@ -25,10 +22,9 @@ public class PautaServiceImpl implements PautaServicePort {
 
     @Override
     public Pauta criarPauta(PautaDTO pautaDTO) {
+
         Pauta pauta = new Pauta(pautaDTO);
         pautaRepository.salvar(pauta);
-
-        logger.info("Pauta \"" + pauta.getNome() + "\" criada na base.");
 
         return pauta;
     }
@@ -40,9 +36,7 @@ public class PautaServiceImpl implements PautaServicePort {
 
         pauta.setNome(pautaDTO.getNome());
 
-        pautaRepository.salvar(pauta);
-
-        logger.info("Pauta \"" + id + "\" atualizada na base.");
+        pautaRepository.atualizar(pauta);
 
         return pauta;
     }
@@ -53,8 +47,6 @@ public class PautaServiceImpl implements PautaServicePort {
         Pauta pauta = pautaRepository.getById(id);
 
         boolean isRemoved = pautaRepository.remover(pauta);
-
-        logger.info("Pauta \"" + id + "\" removida da base.");
 
         return isRemoved;
     }

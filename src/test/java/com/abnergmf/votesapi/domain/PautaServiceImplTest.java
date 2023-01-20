@@ -31,6 +31,7 @@ public class PautaServiceImplTest {
         PautaDTO pautaDTO = new PautaDTO(1L, "PautaDTO para teste");
 
         when(pautaRepository.salvar(pauta)).thenReturn(pauta);
+        when(pautaRepository.atualizar(pauta)).thenReturn(pauta);
     }
 
     @Test

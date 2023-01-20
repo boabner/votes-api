@@ -22,6 +22,10 @@ public class PautaEntity {
 
     }
 
+    public PautaEntity(String nome) {
+        this.nome = nome;
+    }
+
     public PautaEntity(Long id, String nome) {
         this.id = id;
         this.nome = nome;
