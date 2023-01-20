@@ -3,6 +3,7 @@ package com.abnergmf.votesapi.application.adapters.controller;
 import java.util.List;
 
 import com.abnergmf.votesapi.application.adapters.controller.form.PautaForm;
+import com.abnergmf.votesapi.application.adapters.converter.PautaDTOConverter;
 import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.dtos.PautaDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.PautaServicePort;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,48 +27,41 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("pautas")
 public class PautaController {
-    private static final Logger logger = LoggerFactory.getLogger(PautaController.class.getName());
-    private final PautaServicePort pautaServicePort;
 
-    public PautaController(PautaServicePort pautaServicePort) {
-        this.pautaServicePort = pautaServicePort;
-    }
+    @Autowired
+    private PautaServicePort pautaServicePort;
+    @Autowired
+    private PautaDTOConverter pautaFormConverter;
 
     @PostMapping
     @Transactional
     public ResponseEntity<PautaDTO> criarPauta(
         @RequestBody @Valid PautaForm pautaForm
     ) {
-        Pauta pauta = pautaServicePort.criarPauta(pautaForm.toPautaDTO());
-
-        logger.info("Pauta \"" + pauta.getNome() + "\" criada na base.");
+        Pauta pauta = pautaServicePort.criarPauta(pautaFormConverter.toPautaDTO(pautaForm));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> atualizarPauta(@PathVariable Long id, @RequestBody @Valid PautaForm pautaForm) throws Exception{
+    public ResponseEntity<?> atualizarPauta(@PathVariable Long id, @RequestBody @Valid PautaForm pautaForm) {
 
-        Pauta pauta = pautaServicePort.atualizarPauta(id, pautaForm.toPautaDTO());
-
-        logger.info("Pauta \"" + id + "\" atualizada na base.");
+        Pauta pauta = pautaServicePort.atualizarPauta(id, pautaFormConverter.toPautaDTO(pautaForm));
 
         return ResponseEntity.ok(pauta);
     }
 
     @GetMapping
-    List<PautaDTO> getPautas() {
+    List<PautaDTO> listarPautas() {
         return pautaServicePort.listarPautas();
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> remover(@PathVariable Long id) throws Exception {
+    public ResponseEntity<?> removerPauta(@PathVariable Long id) throws Exception {
 
         pautaServicePort.removerPauta(id);
-
-        logger.info("Pauta \"" + id + "\" removida da base.");
 
         return ResponseEntity.ok().build();
     }
