@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import com.abnergmf.votesapi.application.adapters.controller.form.VotacaoForm;
 import com.abnergmf.votesapi.application.adapters.converter.VotacaoDTOConverter;
 import com.abnergmf.votesapi.domain.Votacao;
+import com.abnergmf.votesapi.domain.dtos.ResultadoVotacaoDTO;
 import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.VotacaoServicePort;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,10 @@ public class VotacaoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping
-    List<VotacaoDTO> getResultadoVotacao(@PathVariable Long id) {
-        return votacaoServicePort.listarVotosPorSessaoId(id);
+    @GetMapping("/resultado/sessao={sessaoId}")
+    ResponseEntity<?> getResultadoVotacao(@PathVariable Long sessaoId) {
+        ResultadoVotacaoDTO resultadoVotacaoDTO = votacaoServicePort.exibirResultadoPorSessaoId(sessaoId);
+        return ResponseEntity.ok(resultadoVotacaoDTO);
     }
 
 }
