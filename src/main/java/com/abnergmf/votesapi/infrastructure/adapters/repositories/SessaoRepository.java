@@ -29,7 +29,6 @@ public class SessaoRepository implements SessaoRepositoryPort {
     @Autowired
     private SessaoConverter sessaoConverter;
 
-
     @Override
     public List<Sessao> listarTodos() {
         List<Sessao> sessaoList = sessaoRepositoryDAO.findAll().stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));

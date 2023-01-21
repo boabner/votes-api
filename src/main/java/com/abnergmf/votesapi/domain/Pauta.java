@@ -21,7 +21,6 @@ public class Pauta {
         return id;
     }
 
-
     public String getNome() {
         return nome;
     }

@@ -2,8 +2,6 @@ package com.abnergmf.votesapi.domain.dtos;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class SessaoDTO {
 
     private Long id;

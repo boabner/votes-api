@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.abnergmf.votesapi.domain.Pauta;
-import com.abnergmf.votesapi.domain.Sessao;
 import com.abnergmf.votesapi.infrastructure.adapters.entities.PautaEntity;
 import com.abnergmf.votesapi.infrastructure.adapters.entities.SessaoEntity;
 import org.junit.After;
