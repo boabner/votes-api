@@ -3,7 +3,6 @@ package com.abnergmf.votesapi.domain.adapters.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.abnergmf.votesapi.application.adapters.controller.PautaController;
 import com.abnergmf.votesapi.application.adapters.converter.PautaDTOConverter;
 import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.dtos.PautaDTO;

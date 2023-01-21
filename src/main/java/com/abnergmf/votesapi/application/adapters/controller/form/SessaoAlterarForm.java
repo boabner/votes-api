@@ -10,9 +10,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class SessaoAlterarForm {
 
-    public SessaoAlterarForm() {
-    }
-
     public SessaoAlterarForm(String dataEncerramento) {
         this.dataEncerramento = dataEncerramento;
     }

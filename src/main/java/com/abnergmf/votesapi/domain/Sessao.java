@@ -39,10 +39,6 @@ public class Sessao {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
     public Date getDataEncerramento() {
         return dataEncerramento;
     }
