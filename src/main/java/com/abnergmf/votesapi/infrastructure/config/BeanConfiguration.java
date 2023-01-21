@@ -25,8 +25,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    VotacaoServicePort votacaoService(VotacaoRepositoryPort votacaoRepositoryPort, VotacaoDTOConverter votacaoDTOConverter) {
-        return new VotacaoServiceImpl(votacaoRepositoryPort, votacaoDTOConverter);
+    VotacaoServicePort votacaoService(VotacaoRepositoryPort votacaoRepositoryPort) {
+        return new VotacaoServiceImpl(votacaoRepositoryPort);
     }
 
     @Bean

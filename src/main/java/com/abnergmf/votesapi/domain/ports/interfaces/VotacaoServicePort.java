@@ -7,6 +7,6 @@ public interface VotacaoServicePort {
 
     ResultadoVotacaoDTO exibirResultadoPorSessaoId(Long sessaoId);
 
-    void registrarVoto(VotacaoDTO votacaoDTO);
+    Boolean registrarVoto(VotacaoDTO votacaoDTO);
 
 }

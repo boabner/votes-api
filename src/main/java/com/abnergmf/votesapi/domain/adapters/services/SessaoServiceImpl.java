@@ -43,6 +43,14 @@ public class SessaoServiceImpl implements SessaoServicePort {
     }
 
     @Override
+    public Boolean verificarStatusSessao(Long sessaoId) {
+
+        Sessao sessao = sessaoRepository.getById(sessaoId);
+
+        return sessao.getDataEncerramento().compareTo(new Date()) != -1;
+    }
+
+    @Override
     public Sessao atualizarSessao(Long id, SessaoDTO sessaoDTO) {
 
         Sessao sessao = sessaoRepository.getById(id);
@@ -59,9 +67,7 @@ public class SessaoServiceImpl implements SessaoServicePort {
 
         Sessao sessao = sessaoRepository.getById(id);
 
-        boolean isRemoved = sessaoRepository.remover(sessao);
-
-        return isRemoved;
+        return sessaoRepository.remover(sessao);
     }
 
     @Override

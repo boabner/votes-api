@@ -6,24 +6,29 @@ import com.abnergmf.votesapi.application.adapters.converter.VotacaoDTOConverter;
 import com.abnergmf.votesapi.domain.Votacao;
 import com.abnergmf.votesapi.domain.dtos.ResultadoVotacaoDTO;
 import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
+import com.abnergmf.votesapi.domain.ports.interfaces.SessaoServicePort;
 import com.abnergmf.votesapi.domain.ports.interfaces.VotacaoServicePort;
 import com.abnergmf.votesapi.domain.ports.repositories.VotacaoRepositoryPort;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class VotacaoServiceImpl implements VotacaoServicePort {
 
     private final VotacaoRepositoryPort votacaoRepository;
-    private final VotacaoDTOConverter votacaoDTOConverter;
+    @Autowired
+    private SessaoServicePort sessaoServicePort;
 
-    public VotacaoServiceImpl(VotacaoRepositoryPort votacaoRepository, VotacaoDTOConverter votacaoDTOConverter) {
+    public VotacaoServiceImpl(VotacaoRepositoryPort votacaoRepository) {
         this.votacaoRepository = votacaoRepository;
-        this.votacaoDTOConverter = votacaoDTOConverter;
     }
 
     @Override
-    public void registrarVoto(VotacaoDTO votacaoDTO) {
-
-        Votacao votacao = new Votacao(votacaoDTO);
-        votacaoRepository.salvar(votacao);
+    public Boolean registrarVoto(VotacaoDTO votacaoDTO) {
+        if (sessaoServicePort.verificarStatusSessao(votacaoDTO.getSessaoId())) {
+            Votacao votacao = new Votacao(votacaoDTO);
+            votacaoRepository.salvar(votacao);
+            return true;
+        }
+        return false;
     }
 
     @Override
