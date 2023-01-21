@@ -31,15 +31,13 @@ public class SessaoRepository implements SessaoRepositoryPort {
 
     @Override
     public List<Sessao> listarTodos() {
-        List<Sessao> sessaoList = sessaoRepositoryDAO.findAll().stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
-        return sessaoList;
+        return sessaoRepositoryDAO.findAll().stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
     }
 
     @Override
     public List<Sessao> listarSessoesAtivas() {
-        List<Sessao> sessaoList =
-                sessaoRepositoryDAO.findAllByDataEncerramentoAfter(new Date())
-                        .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
+        List<Sessao> sessaoList = sessaoRepositoryDAO.findAllByDataEncerramentoAfter(new Date())
+                .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
         return sessaoList;
     }
 
@@ -59,20 +57,19 @@ public class SessaoRepository implements SessaoRepositoryPort {
 
     @Override
     public Sessao salvar(Sessao sessao) {
-        SessaoEntity sessaoEntity;
+
         Optional<PautaEntity> optionalPautaEntity = pautaRepositoryDAO.findById(sessao.getPautaId());
         if (optionalPautaEntity.isPresent()) {
-            sessaoEntity = new SessaoEntity();
-            sessaoEntity.setPautaEntity(optionalPautaEntity.get());
-            sessaoEntity.setDataCriacao(new Date());
-            sessaoEntity.setDataEncerramento(sessao.getDataEncerramento());
+
+            SessaoEntity sessaoEntity = sessaoConverter.toSessaoEntity(sessao, optionalPautaEntity.get());
+
+            sessaoRepositoryDAO.save(sessaoEntity);
+            return sessao;
         }
         else {
             logger.info("Pauta com id " + sessao.getPautaId() + " não encontrada.");
             throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
         }
-        sessaoRepositoryDAO.save(sessaoEntity);
-        return sessao;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class PautaController {
     public ResponseEntity<PautaDTO> criarPauta(
         @RequestBody @Valid PautaForm pautaForm
     ) {
-        Pauta pauta = pautaServicePort.criarPauta(pautaFormConverter.toPautaDTO(pautaForm));
+        pautaServicePort.criarPauta(pautaFormConverter.toPautaDTO(pautaForm));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
