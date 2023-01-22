@@ -2,7 +2,6 @@ package com.abnergmf.votesapi.domain.adapters.services;
 
 import java.util.List;
 
-import com.abnergmf.votesapi.application.adapters.converter.VotacaoDTOConverter;
 import com.abnergmf.votesapi.domain.Votacao;
 import com.abnergmf.votesapi.domain.dtos.ResultadoVotacaoDTO;
 import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
@@ -14,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class VotacaoServiceImpl implements VotacaoServicePort {
 
     private final VotacaoRepositoryPort votacaoRepository;
-    @Autowired
-    private SessaoServicePort sessaoServicePort;
+
 
     public VotacaoServiceImpl(VotacaoRepositoryPort votacaoRepository) {
         this.votacaoRepository = votacaoRepository;
@@ -23,12 +21,10 @@ public class VotacaoServiceImpl implements VotacaoServicePort {
 
     @Override
     public Boolean registrarVoto(VotacaoDTO votacaoDTO) {
-        if (sessaoServicePort.verificarStatusSessao(votacaoDTO.getSessaoId())) {
-            Votacao votacao = new Votacao(votacaoDTO);
-            votacaoRepository.salvar(votacao);
-            return true;
-        }
-        return false;
+
+        Votacao votacao = new Votacao(votacaoDTO);
+        votacaoRepository.salvar(votacao);
+        return true;
     }
 
     @Override

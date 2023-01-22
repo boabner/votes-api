@@ -43,7 +43,7 @@ public class SessaoServiceImpl implements SessaoServicePort {
     }
 
     @Override
-    public Boolean verificarStatusSessao(Long sessaoId) {
+    public Boolean verificarSessaoAberta(Long sessaoId) {
 
         Sessao sessao = sessaoRepository.getById(sessaoId);
 

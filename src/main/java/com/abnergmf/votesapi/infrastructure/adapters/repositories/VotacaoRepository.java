@@ -29,7 +29,7 @@ public class VotacaoRepository implements VotacaoRepositoryPort {
 
     @Override
     public List<Votacao> listarTodosPorSessaoId(Long sessaoId) {
-        return votacaoRepositoryDAO.findAll().stream().map(votacaoConverter::toVotacao).collect((Collectors.toList()));
+        return votacaoRepositoryDAO.findAllBySessaoEntityId(sessaoId).stream().map(votacaoConverter::toVotacao).collect((Collectors.toList()));
     }
 
     @Override

@@ -33,12 +33,22 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(VoteAPIObjectNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(
+    public ResponseEntity<Object> handleVoteAPIObjectNotFoundException(
             VoteAPIObjectNotFoundException exception, WebRequest request) {
 
         ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
 
         return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), apiErrorMessage.getStatus());
     }
+
+    @ExceptionHandler(SessaoEncerradaOuNaoEncontradaException.class)
+    public ResponseEntity<Object> handleSessaoEncerradaException(
+            SessaoEncerradaOuNaoEncontradaException exception, WebRequest request) {
+
+        ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+
+        return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), apiErrorMessage.getStatus());
+    }
+
 
 }
