@@ -4,13 +4,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.abnergmf.votesapi.application.adapters.converter.PautaDTOConverter;
+import com.abnergmf.votesapi.application.error.PautaAlreadyStartedException;
 import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.dtos.PautaDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.PautaServicePort;
+import com.abnergmf.votesapi.domain.ports.interfaces.SessaoServicePort;
 import com.abnergmf.votesapi.domain.ports.repositories.PautaRepositoryPort;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class PautaServiceImpl implements PautaServicePort {
 
+    @Autowired
+    private SessaoServicePort sessaoServicePort;
     private final PautaRepositoryPort pautaRepository;
     private final PautaDTOConverter pautaDTOConverter;
 
@@ -41,13 +46,18 @@ public class PautaServiceImpl implements PautaServicePort {
     }
 
     @Override
-    public Boolean removerPauta(Long id)  {
+    public Boolean processarPedidoDeRemocao(Long id) {
+        if (sessaoServicePort.listarSessoesPorPautaId(id).isEmpty()) {
+            return removerPauta(id);
+        }
+        throw new PautaAlreadyStartedException(id);
+    }
+
+    private Boolean removerPauta(Long id)  {
 
         Pauta pauta = pautaRepository.getById(id);
 
-        boolean isRemoved = pautaRepository.remover(pauta);
-
-        return isRemoved;
+        return pautaRepository.remover(pauta);
     }
 
     @Override

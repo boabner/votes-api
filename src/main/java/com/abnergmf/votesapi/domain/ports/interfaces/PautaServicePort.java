@@ -10,6 +10,6 @@ public interface PautaServicePort {
     List<PautaDTO> listarPautas();
     Pauta criarPauta(PautaDTO pautaDTO);
     Pauta atualizarPauta(Long idPauta, PautaDTO pautaDTO);
-    Boolean removerPauta(Long idPauta);
+    Boolean processarPedidoDeRemocao(Long id);
 
 }

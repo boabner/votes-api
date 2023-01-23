@@ -2,7 +2,6 @@ package com.abnergmf.votesapi.infrastructure.adapters.repositories;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,9 +35,13 @@ public class SessaoRepository implements SessaoRepositoryPort {
 
     @Override
     public List<Sessao> listarSessoesAtivas() {
-        List<Sessao> sessaoList = sessaoRepositoryDAO.findAllByDataEncerramentoAfter(new Date())
+        return sessaoRepositoryDAO.findAllByDataEncerramentoAfter(new Date())
                 .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
-        return sessaoList;
+    }
+
+    public List<Sessao> listarSessoesPorPautaId(Long pautaId) {
+        return sessaoRepositoryDAO.findAllByPautaEntityId(pautaId)
+                .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
     }
 
     @Override
