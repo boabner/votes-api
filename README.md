@@ -287,5 +287,6 @@ curl --location --request GET 'http://localhost:8081/votacao/resultado/sessao=3'
   ./mvnw spring-boot:stop
 ```
 
-## Estratégia de deploy
+## Modelagem inicial
 
+<span style="display:block;text-align:center">![Dados inicias do projeto](docs/arquitetura/modelagem-inicial.jpg)</span>
