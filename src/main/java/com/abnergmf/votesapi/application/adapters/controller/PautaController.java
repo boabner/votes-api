@@ -59,7 +59,7 @@ public class PautaController {
     @Transactional
     public ResponseEntity<?> removerPauta(@PathVariable Long id) throws Exception {
 
-        pautaServicePort.removerPauta(id);
+        pautaServicePort.processarPedidoDeRemocao(id);
 
         return ResponseEntity.ok().build();
     }

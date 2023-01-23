@@ -62,4 +62,10 @@ public class SessaoServiceImpl implements SessaoServicePort {
         return listSessaos.stream().map(sessaoAtivaDTOConverter::sessaoToSessaoAtivaDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<SessaoDTO> listarSessoesPorPautaId(Long pautaId) {
+        List<Sessao> listSessaos = sessaoRepository.listarSessoesPorPautaId(pautaId);
+        return listSessaos.stream().map(sessaoDTOConverter::sessaoToSessaoDTO).collect(Collectors.toList());
+    }
+
 }
