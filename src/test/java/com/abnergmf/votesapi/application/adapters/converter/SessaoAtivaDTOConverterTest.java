@@ -4,11 +4,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
-import com.abnergmf.votesapi.application.adapters.controller.form.SessaoAlterarForm;
-import com.abnergmf.votesapi.application.adapters.controller.form.SessaoForm;
 import com.abnergmf.votesapi.application.util.DateUtil;
 import com.abnergmf.votesapi.domain.Sessao;
-import com.abnergmf.votesapi.domain.dtos.SessaoAtivaDTO;
+import com.abnergmf.votesapi.domain.dtos.SessaoResultadoDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class SessaoAtivaDTOConverterTest {
 
     @Mock
-    private SessaoAtivaDTOConverter sessaoConverter;
+    private SessaoResultadoDTOConverter sessaoConverter;
 
     private Long pautaId;
     private Long sessaoId;
@@ -40,11 +38,11 @@ public class SessaoAtivaDTOConverterTest {
     public void deveRetornarSessaoAtivaDTOAoChamarSessaoToSessaoAtivaDTO() {
 
         Sessao sessao = new Sessao(sessaoId, new Date(), dataEncerramento, pautaId);
-        SessaoAtivaDTO sessaoAtivaDTO = new SessaoAtivaDTO(sessaoId, DateUtil.converterStringEmData(dataEncerramentoString), pautaId);
+        SessaoResultadoDTO sessaoAtivaDTO = new SessaoResultadoDTO(sessaoId, new Date(), DateUtil.converterStringEmData(dataEncerramentoString), pautaId);
 
-        when(sessaoConverter.sessaoToSessaoAtivaDTO(sessao)).thenReturn(sessaoAtivaDTO);
+        when(sessaoConverter.sessaoToSessaoResultadoDTO(sessao)).thenReturn(sessaoAtivaDTO);
 
-        Assert.assertEquals(sessaoAtivaDTO, sessaoConverter.sessaoToSessaoAtivaDTO(sessao));
+        Assert.assertEquals(sessaoAtivaDTO, sessaoConverter.sessaoToSessaoResultadoDTO(sessao));
 
     }
 

@@ -8,6 +8,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import com.abnergmf.votesapi.application.error.FormatDateConverterException;
+import com.abnergmf.votesapi.infrastructure.adapters.repositories.PautaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DateUtil {
 
