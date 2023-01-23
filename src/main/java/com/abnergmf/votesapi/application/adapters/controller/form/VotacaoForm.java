@@ -16,10 +16,14 @@ public class VotacaoForm {
 
     @NotNull(message = "{sessaoId.not.null}")
     private Long sessaoId;
+
     @NotNull
     @NotEmpty(message = "{escolha.not.blank}")
     @Length(min = 1, max = 1, message = "{escolha.max.lenght}")
     @Pattern(regexp = "[S,N]", message = "{escolha.invalid.value}")
     private String escolha;
+
+    @NotNull(message = "{associadoId.not.null}")
+    private Long associadoId;
 
 }

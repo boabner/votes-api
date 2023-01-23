@@ -2,8 +2,8 @@ package com.abnergmf.votesapi.domain.adapters.services;
 
 import java.util.List;
 
-import com.abnergmf.votesapi.application.error.SessaoEncerradaOuNaoEncontradaException;
-import com.abnergmf.votesapi.domain.Votacao;
+import com.abnergmf.votesapi.application.error.VotingSesssionClosedOrNotFoundException;
+import com.abnergmf.votesapi.domain.votacao;
 import com.abnergmf.votesapi.domain.dtos.ResultadoVotacaoDTO;
 import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
 import com.abnergmf.votesapi.domain.ports.interfaces.SessaoServicePort;
@@ -22,20 +22,22 @@ public class VotacaoServiceImpl implements VotacaoServicePort {
     }
 
     @Override
-    public Votacao processarVoto(VotacaoDTO votacaoDTO) {
+    public votacao processarVoto(VotacaoDTO votacaoDTO) {
 
-        if (sessaoServicePort.validarSessaoAntesDeProsseguir(votacaoDTO.getSessaoId())) {
+        if (sessaoServicePort.validarSessaoAntesDeProsseguir(votacaoDTO.getSessaoId()) &&
+            votacaoRepository.validarVotoValidoPorAssociadoIdESessaoId(votacaoDTO)
+        ) {
             return registrarVoto(votacaoDTO);
         }
         else {
-            throw new SessaoEncerradaOuNaoEncontradaException(votacaoDTO.getSessaoId());
+            throw new VotingSesssionClosedOrNotFoundException(votacaoDTO.getSessaoId());
         }
 
     }
 
-    private Votacao registrarVoto(VotacaoDTO votacaoDTO) {
+    private votacao registrarVoto(VotacaoDTO votacaoDTO) {
 
-        Votacao votacao = new Votacao(votacaoDTO);
+        votacao votacao = new votacao(votacaoDTO);
         votacaoRepository.salvar(votacao);
 
         return votacao;
@@ -44,7 +46,7 @@ public class VotacaoServiceImpl implements VotacaoServicePort {
     @Override
     public ResultadoVotacaoDTO exibirResultadoPorSessaoId(Long sessaoId) {
 
-        List<Votacao> votacaoList = listarVotosPorSessionId(sessaoId);
+        List<votacao> votacaoList = listarVotosPorSessionId(sessaoId);
         if (!votacaoList.isEmpty()) {
 
             ResultadoVotacaoDTO resultadoVotacaoDTO = new ResultadoVotacaoDTO(sessaoId);
@@ -76,11 +78,11 @@ public class VotacaoServiceImpl implements VotacaoServicePort {
         return resultado;
     }
 
-    private List<Votacao> listarVotosPorSessionId(Long sessaoId) {
+    private List<votacao> listarVotosPorSessionId(Long sessaoId) {
         if (sessaoServicePort.validarSessaoAntesDeProsseguir(sessaoId)) {
             return votacaoRepository.listarTodosPorSessaoId(sessaoId);
         }
-        throw new SessaoEncerradaOuNaoEncontradaException(sessaoId);
+        throw new VotingSesssionClosedOrNotFoundException(sessaoId);
     }
 
 }
