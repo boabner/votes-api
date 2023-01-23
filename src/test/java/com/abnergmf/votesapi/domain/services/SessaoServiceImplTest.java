@@ -1,4 +1,4 @@
-package com.abnergmf.votesapi.domain;
+package com.abnergmf.votesapi.domain.services;
 
 import static org.mockito.Mockito.when;
 
@@ -6,6 +6,7 @@ import java.util.Date;
 
 import com.abnergmf.votesapi.application.error.VoteAPIObjectNotFoundException;
 import com.abnergmf.votesapi.application.util.DateUtil;
+import com.abnergmf.votesapi.domain.Sessao;
 import com.abnergmf.votesapi.domain.adapters.services.SessaoServiceImpl;
 import com.abnergmf.votesapi.domain.dtos.SessaoDTO;
 import com.abnergmf.votesapi.infrastructure.adapters.repositories.SessaoRepository;
