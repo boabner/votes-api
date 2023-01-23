@@ -88,7 +88,7 @@ public class PautaServiceImplTest {
     public void deveConcluirAoChamarRemoverPauta() {
 
         Long idPauta = 1L;
-        pautaServiceImpl.removerPauta(idPauta);
+        pautaServiceImpl.processarPedidoDeRemocao(idPauta);
 
     }
 
@@ -97,9 +97,9 @@ public class PautaServiceImplTest {
 
         Long idPauta = 45L;
 
-        when(pautaServiceImpl.removerPauta(idPauta)).thenThrow(new VoteAPIObjectNotFoundException("Pauta", idPauta));
+        when(pautaServiceImpl.processarPedidoDeRemocao(idPauta)).thenThrow(new VoteAPIObjectNotFoundException("Pauta", idPauta));
 
-        pautaServiceImpl.removerPauta(idPauta);
+        pautaServiceImpl.processarPedidoDeRemocao(idPauta);
 
     }
 

@@ -1,12 +1,14 @@
 package com.abnergmf.votesapi.infrastructure.adapters.repositories;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
-
 import javax.transaction.Transactional;
 
+import com.abnergmf.votesapi.application.util.DateUtil;
 import com.abnergmf.votesapi.infrastructure.adapters.entities.PautaEntity;
 import com.abnergmf.votesapi.infrastructure.adapters.entities.SessaoEntity;
+import com.abnergmf.votesapi.infrastructure.adapters.entities.VotacaoEntity;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,16 +22,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 @DataJpaTest
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class SessaoRepositoryDAOTest {
+public class VotacaoRepositoryDAOTest {
 
     @Autowired
-    private SessaoRepositoryDAO sessaoRepositoryDAO;
-
+    private VotacaoRepositoryDAO votacaoRepositoryDAO;
     @Autowired
     private PautaRepositoryDAO pautaRepositoryDAO;
-
-    private SessaoEntity sessaoEntity;
+    @Autowired
+    private SessaoRepositoryDAO sessaoRepositoryDAO;
+    private VotacaoEntity votacaoEntity;
     private PautaEntity pautaEntity;
+    private SessaoEntity sessaoEntity;
 
     @Before
     public void init() {
@@ -42,29 +45,29 @@ public class SessaoRepositoryDAOTest {
     }
 
     @Test
-    public void deveRetornarOptionalSessaoEntityAoChamarFindById() {
+    public void deveRetornarListVotacaoEntityAoChamarFindAllBySessaoEntityId() {
 
-        Optional<SessaoEntity> optionalSessaoEntity = sessaoRepositoryDAO.findById(sessaoEntity.getId());
+        List<VotacaoEntity> votacaoEntityList = votacaoRepositoryDAO.findAllBySessaoEntityId(sessaoEntity.getId());
 
-        Assert.assertTrue(optionalSessaoEntity.isPresent());
+        Assert.assertFalse(votacaoEntityList.isEmpty());
     }
 
     @Test
-    public void naoDeveRetornarOptionalSessaoEntityAoChamarFindById() {
-
-        Optional<SessaoEntity> optionalSessaoEntity = sessaoRepositoryDAO.findById(-1L);
-
-        Assert.assertFalse(optionalSessaoEntity.isPresent());
+    public void naoDeveRetornarOptionalVotacaoEntityAoChamarFindById() {
+        Optional<VotacaoEntity> optionalVotacaoEntity = votacaoRepositoryDAO.findById(-1L);
+        Assert.assertFalse(optionalVotacaoEntity.isPresent());
     }
 
     @Transactional
     private void prepararAmbiente() {
-        sessaoEntity = gerarSessaoEntityParaTeste();
         pautaEntity = gerarPautaEntityParaTeste();
+        sessaoEntity = gerarSessaoEntityParaTeste();
+        votacaoEntity = gerarVotacaoEntityParaTeste();
     }
 
     @Transactional
     private void finalizarAmbiente() {
+        votacaoRepositoryDAO.delete(votacaoEntity);
         sessaoRepositoryDAO.delete(sessaoEntity);
         pautaRepositoryDAO.delete(pautaEntity);
     }
@@ -74,8 +77,13 @@ public class SessaoRepositoryDAOTest {
     }
 
     private SessaoEntity gerarSessaoEntityParaTeste() {
-        SessaoEntity sessaoEntity = new SessaoEntity(null, new Date(), new Date(), pautaEntity);
-        sessaoRepositoryDAO.save(sessaoEntity);
-        return sessaoEntity;
+        Date dataEncerramento = DateUtil.acrescentarMinutosNaData(new Date(), 30);
+        return sessaoRepositoryDAO.save(new SessaoEntity(new Date(), dataEncerramento, pautaEntity));
+    }
+
+    private VotacaoEntity gerarVotacaoEntityParaTeste() {
+        VotacaoEntity votacaoEntity = new VotacaoEntity(null, "S", sessaoEntity);
+        votacaoRepositoryDAO.save(votacaoEntity);
+        return votacaoEntity;
     }
 }

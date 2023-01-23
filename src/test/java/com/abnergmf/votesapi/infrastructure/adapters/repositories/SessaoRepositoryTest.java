@@ -80,25 +80,6 @@ public class SessaoRepositoryTest {
     }
 
     @Test
-    public void deveRetornarTrueAoRemoverSessao() {
-        Long sessaoId = 1L;
-        Sessao sessao = sessaoRepository.getById(sessaoId);
-
-        Boolean isRemoved = sessaoRepository.remover(sessao);
-
-        Assert.assertEquals(isRemoved, true);
-
-    }
-
-    @Test(expected = VoteAPIObjectNotFoundException.class)
-    public void deveCairNaVoteAPIObjectNotFoundExceptionAoTentarRemoverSessao() {
-
-        Long idSessao = -1L;
-        Sessao sessao = sessaoRepository.getById(idSessao);
-        sessaoRepository.remover(sessao);
-    }
-
-    @Test
     public void deveRetornarSessaoAoSalvar() {
 
         Long sessaoId = 1L;
@@ -119,23 +100,5 @@ public class SessaoRepositoryTest {
 
     }
 
-    @Test
-    public void deveRetornarSessaoAoAtualizar() {
-        Long sessaoId = 1L;
-        Sessao sessao = sessaoRepository.getById(sessaoId);
-
-        Sessao sessaoSalva = sessaoRepository.atualizar(sessao);
-
-        Assert.assertEquals(sessao, sessaoSalva);
-    }
-
-    @Test(expected = VoteAPIObjectNotFoundException.class)
-    public void deveCairNaVoteAPIObjectNotFoundExceptionAoTentarAtualizarSessao() {
-
-        Long idSessao = -1L;
-        Sessao sessao = sessaoRepository.getById(idSessao);
-        sessaoRepository.atualizar(sessao);
-
-    }
 
 }

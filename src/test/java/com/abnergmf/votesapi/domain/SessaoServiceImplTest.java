@@ -42,7 +42,6 @@ public class SessaoServiceImplTest {
         sessao = new Sessao(sessaoId, new Date(), dataEncerramento, pautaId);
 
         when(sessaoRepository.salvar(sessao)).thenReturn(sessao);
-        when(sessaoRepository.atualizar(sessao)).thenReturn(sessao);
     }
 
     @Test
@@ -75,62 +74,6 @@ public class SessaoServiceImplTest {
         when(sessaoServiceImpl.abrirSessao(sessaoDTO)).thenThrow(new VoteAPIObjectNotFoundException("Sessao", -1L));
 
         sessaoServiceImpl.abrirSessao(sessaoDTO);
-
-    }
-
-
-    @Test
-    public void deveRetornarSessaoAoChamarAtualizarSessao() {
-
-        Long idSessao = 1L;
-        SessaoDTO sessaoDTO = new SessaoDTO(sessaoId, pautaId, new Date(), dataEncerramento);
-
-        when(sessaoServiceImpl.atualizarSessao(idSessao, sessaoDTO)).thenReturn(sessao);
-        Sessao sessaoSalva = sessaoServiceImpl.atualizarSessao(idSessao, sessaoDTO);
-
-        Assert.notNull(sessaoSalva);
-    }
-
-    @Test(expected = VoteAPIObjectNotFoundException.class)
-    public void deveRetornarVoteAPIObjectNotFoundExceptionAoTentarAtualizarSessaoComSessaoIdInexistente() {
-
-        Long sessaoIdInexistente = -1L;
-        SessaoDTO sessaoDTO = new SessaoDTO(sessaoIdInexistente, pautaId, new Date(), dataEncerramento);
-
-        when(sessaoServiceImpl.atualizarSessao(sessaoIdInexistente, sessaoDTO)).thenThrow(new VoteAPIObjectNotFoundException("Pauta", sessaoIdInexistente));
-
-        sessaoServiceImpl.atualizarSessao(sessaoIdInexistente, sessaoDTO);
-
-    }
-
-    @Test(expected = VoteAPIObjectNotFoundException.class)
-    public void deveRetornarVoteAPIObjectNotFoundExceptionAoTentarAtualizarSessaoComPautaIdInexistente() {
-
-        Long pautaIdInexistente = -1L;
-        SessaoDTO sessaoDTO = new SessaoDTO(sessaoId, pautaIdInexistente, new Date(), dataEncerramento);
-
-        when(sessaoServiceImpl.atualizarSessao(sessaoId, sessaoDTO)).thenThrow(new VoteAPIObjectNotFoundException("Pauta", pautaIdInexistente));
-
-        sessaoServiceImpl.atualizarSessao(sessaoId, sessaoDTO);
-
-    }
-
-    @Test
-    public void deveConcluirAoChamarRemoverSessao() {
-
-        Long idSessao = 1L;
-        sessaoServiceImpl.removerSessao(idSessao);
-
-    }
-
-    @Test(expected = VoteAPIObjectNotFoundException.class)
-    public void deveRetornarVoteAPIObjectNotFoundExceptionAoTentarRemoverSessao() {
-
-        Long idSessao = 45L;
-
-        when(sessaoServiceImpl.removerSessao(idSessao)).thenThrow(new VoteAPIObjectNotFoundException("Sessao", idSessao));
-
-        sessaoServiceImpl.removerSessao(idSessao);
 
     }
 

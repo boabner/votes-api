@@ -31,6 +31,12 @@ public class SessaoEntity implements Serializable {
 
     }
 
+    public SessaoEntity(Date dataCriacao, Date dataEncerramento, PautaEntity pautaEntity) {
+        this.dataCriacao = dataCriacao;
+        this.dataEncerramento = dataEncerramento;
+        this.pautaEntity = pautaEntity;
+    }
+
     public SessaoEntity(Long id, Date dataCriacao, Date dataEncerramento, PautaEntity pautaEntity) {
         this.id = id;
         this.dataCriacao = dataCriacao;
@@ -50,27 +56,12 @@ public class SessaoEntity implements Serializable {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
     public Date getDataEncerramento() {
         return dataEncerramento;
-    }
-
-    public void setDataEncerramento(Date dataEncerramento) {
-        this.dataEncerramento = dataEncerramento;
-    }
-
-    public void atualizar(Sessao sessao) {
-        this.dataEncerramento = sessao.getDataEncerramento();
     }
 
     public PautaEntity getPautaEntity() {
         return pautaEntity;
     }
 
-    public void setPautaEntity(PautaEntity pautaEntity) {
-        this.pautaEntity = pautaEntity;
-    }
 }

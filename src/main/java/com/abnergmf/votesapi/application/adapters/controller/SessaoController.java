@@ -43,15 +43,6 @@ public class SessaoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    @Transactional
-    public ResponseEntity<?> atualizarSessao(@PathVariable Long id, @RequestBody @Valid SessaoAlterarForm sessaoForm) {
-
-        Sessao sessao = sessaoServicePort.atualizarSessao(id, sessaoFormConverter.alterarFormtoSessaoDTO(sessaoForm));
-
-        return ResponseEntity.ok(sessao);
-    }
-
     @GetMapping
     List<SessaoDTO> listarSessaos() {
         return sessaoServicePort.listarSessaos();
@@ -62,13 +53,5 @@ public class SessaoController {
         return sessaoServicePort.listarSessoesAtivas();
     }
 
-    @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity<?> removerSessao(@PathVariable Long id) throws Exception {
-
-        sessaoServicePort.removerSessao(id);
-
-        return ResponseEntity.ok().build();
-    }
 
 }

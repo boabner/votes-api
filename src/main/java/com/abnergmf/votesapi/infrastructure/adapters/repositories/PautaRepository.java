@@ -28,8 +28,7 @@ public class PautaRepository  implements PautaRepositoryPort {
 
     @Override
     public List<Pauta> listarTodos() {
-        List<Pauta> pautaList = pautaRepositoryDAO.findAll().stream().map(pautaConverter::toPauta).collect((Collectors.toList()));
-        return pautaList;
+        return pautaRepositoryDAO.findAll().stream().map(pautaConverter::toPauta).collect((Collectors.toList()));
     }
 
     @Override

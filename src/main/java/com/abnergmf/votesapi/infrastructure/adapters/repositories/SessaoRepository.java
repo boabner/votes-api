@@ -2,7 +2,6 @@ package com.abnergmf.votesapi.infrastructure.adapters.repositories;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,16 +30,18 @@ public class SessaoRepository implements SessaoRepositoryPort {
 
     @Override
     public List<Sessao> listarTodos() {
-        List<Sessao> sessaoList = sessaoRepositoryDAO.findAll().stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
-        return sessaoList;
+        return sessaoRepositoryDAO.findAll().stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
     }
 
     @Override
     public List<Sessao> listarSessoesAtivas() {
-        List<Sessao> sessaoList =
-                sessaoRepositoryDAO.findAllByDataEncerramentoAfter(new Date())
-                        .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
-        return sessaoList;
+        return sessaoRepositoryDAO.findAllByDataEncerramentoAfter(new Date())
+                .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
+    }
+
+    public List<Sessao> listarSessoesPorPautaId(Long pautaId) {
+        return sessaoRepositoryDAO.findAllByPautaEntityId(pautaId)
+                .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
     }
 
     @Override
@@ -59,60 +60,19 @@ public class SessaoRepository implements SessaoRepositoryPort {
 
     @Override
     public Sessao salvar(Sessao sessao) {
-        SessaoEntity sessaoEntity;
+
         Optional<PautaEntity> optionalPautaEntity = pautaRepositoryDAO.findById(sessao.getPautaId());
         if (optionalPautaEntity.isPresent()) {
-            sessaoEntity = new SessaoEntity();
-            sessaoEntity.setPautaEntity(optionalPautaEntity.get());
-            sessaoEntity.setDataCriacao(new Date());
-            sessaoEntity.setDataEncerramento(sessao.getDataEncerramento());
+
+            SessaoEntity sessaoEntity = sessaoConverter.toSessaoEntity(sessao, optionalPautaEntity.get());
+
+            sessaoRepositoryDAO.save(sessaoEntity);
+            return sessao;
         }
         else {
             logger.info("Pauta com id " + sessao.getPautaId() + " não encontrada.");
             throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
         }
-        sessaoRepositoryDAO.save(sessaoEntity);
-        return sessao;
     }
 
-    @Override
-    public Sessao atualizar(Sessao sessao) {
-
-        SessaoEntity sessaoEntity;
-        if (!Objects.isNull(sessao.getId())) {
-
-            Optional<SessaoEntity> optionalSessao = sessaoRepositoryDAO.findById(sessao.getId());
-
-            if (optionalSessao.isPresent()) {
-
-                sessaoEntity = optionalSessao.get();
-                sessaoEntity.atualizar(sessao);
-                sessaoRepositoryDAO.save(sessaoEntity);
-
-            }
-            else {
-                logger.info("Sessao com id " + sessao.getId() + " não encontrado.");
-                throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
-            }
-        }
-        return sessao;
-    }
-
-    @Override
-    public Boolean remover(Sessao sessao) {
-        SessaoEntity sessaoEntity;
-        if (!Objects.isNull(sessao.getId())) {
-            Optional<SessaoEntity> optionalSessao = sessaoRepositoryDAO.findById(sessao.getId());
-            if (optionalSessao.isPresent()) {
-                sessaoEntity = optionalSessao.get();
-                sessaoRepositoryDAO.delete(sessaoEntity);
-                return true;
-            }
-            else {
-                logger.info(" com id " + sessao.getId() + " não encontrado.");
-                throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
-            }
-        }
-        return false;
-    }
 }

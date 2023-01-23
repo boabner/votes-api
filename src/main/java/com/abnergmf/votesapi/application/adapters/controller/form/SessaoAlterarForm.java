@@ -14,10 +14,6 @@ public class SessaoAlterarForm {
         this.dataEncerramento = dataEncerramento;
     }
 
-    @NotNull(message = "{dataEncerramento.not.null}")
-    @NotEmpty(message = "{dataEncerramento.not.blank}")
-    @JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
-    @Pattern(regexp = "([0-9]{2})/([0-9]{2})/([0-9]{4})\\s([0-9]{2}):([0-9]{2}):([0-9]{2})", message = "{data.pattern.validation}")
     private String dataEncerramento;
 
     public Date getDataEncerramento() {

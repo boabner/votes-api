@@ -43,25 +43,11 @@ public class SessaoServiceImpl implements SessaoServicePort {
     }
 
     @Override
-    public Sessao atualizarSessao(Long id, SessaoDTO sessaoDTO) {
+    public Boolean validarSessaoAntesDeProsseguir(Long sessaoId) {
 
-        Sessao sessao = sessaoRepository.getById(id);
+        Sessao sessao = sessaoRepository.getById(sessaoId);
 
-        sessao.setDataEncerramento(sessaoDTO.getDataEncerramento());
-
-        sessaoRepository.atualizar(sessao);
-
-        return sessao;
-    }
-
-    @Override
-    public Boolean removerSessao(Long id)  {
-
-        Sessao sessao = sessaoRepository.getById(id);
-
-        boolean isRemoved = sessaoRepository.remover(sessao);
-
-        return isRemoved;
+        return sessao.getDataEncerramento().compareTo(new Date()) != -1;
     }
 
     @Override
@@ -74,6 +60,12 @@ public class SessaoServiceImpl implements SessaoServicePort {
     public List<SessaoAtivaDTO> listarSessoesAtivas() {
         List<Sessao> listSessaos = sessaoRepository.listarSessoesAtivas();
         return listSessaos.stream().map(sessaoAtivaDTOConverter::sessaoToSessaoAtivaDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SessaoDTO> listarSessoesPorPautaId(Long pautaId) {
+        List<Sessao> listSessaos = sessaoRepository.listarSessoesPorPautaId(pautaId);
+        return listSessaos.stream().map(sessaoDTOConverter::sessaoToSessaoDTO).collect(Collectors.toList());
     }
 
 }

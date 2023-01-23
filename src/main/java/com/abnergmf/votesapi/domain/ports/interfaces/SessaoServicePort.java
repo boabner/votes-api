@@ -11,8 +11,8 @@ public interface SessaoServicePort {
     List<SessaoDTO> listarSessaos();
     List<SessaoAtivaDTO> listarSessoesAtivas();
     Sessao abrirSessao(SessaoDTO sessaoDTO);
+    List<SessaoDTO> listarSessoesPorPautaId(Long pautaID);
+    Boolean validarSessaoAntesDeProsseguir(Long sessaoId);
     SessaoDTO prepararAberturaSessao(SessaoDTO sessaoDTO);
-    Sessao atualizarSessao(Long idSessao, SessaoDTO sessaoDTO);
-    Boolean removerSessao(Long idSessao);
 
 }

@@ -7,8 +7,7 @@ import com.abnergmf.votesapi.domain.Sessao;
 public interface SessaoRepositoryPort {
     List<Sessao> listarTodos();
     List<Sessao> listarSessoesAtivas();
+    List<Sessao> listarSessoesPorPautaId(Long pautaId);
     Sessao getById(Long id);
     Sessao salvar(Sessao sessao);
-    Sessao atualizar(Sessao sessao);
-    Boolean remover(Sessao sessao);
 }

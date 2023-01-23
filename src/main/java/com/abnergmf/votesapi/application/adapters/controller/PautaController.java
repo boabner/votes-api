@@ -36,7 +36,7 @@ public class PautaController {
     public ResponseEntity<PautaDTO> criarPauta(
         @RequestBody @Valid PautaForm pautaForm
     ) {
-        Pauta pauta = pautaServicePort.criarPauta(pautaFormConverter.toPautaDTO(pautaForm));
+        pautaServicePort.criarPauta(pautaFormConverter.toPautaDTO(pautaForm));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -59,7 +59,7 @@ public class PautaController {
     @Transactional
     public ResponseEntity<?> removerPauta(@PathVariable Long id) throws Exception {
 
-        pautaServicePort.removerPauta(id);
+        pautaServicePort.processarPedidoDeRemocao(id);
 
         return ResponseEntity.ok().build();
     }

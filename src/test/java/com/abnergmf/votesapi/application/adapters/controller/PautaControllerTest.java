@@ -1,6 +1,5 @@
 package com.abnergmf.votesapi.application.adapters.controller;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.abnergmf.votesapi.application.adapters.controller.form.PautaForm;
@@ -10,7 +9,6 @@ import com.abnergmf.votesapi.infrastructure.adapters.repositories.PautaRepositor
 import com.abnergmf.votesapi.utils.JsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +17,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(PautaController.class)
-public class PautaControlleTest {
+public class PautaControllerTest {
 
     @Autowired
     MockMvc mockMvc;
