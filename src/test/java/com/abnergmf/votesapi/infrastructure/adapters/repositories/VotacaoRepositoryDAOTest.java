@@ -82,7 +82,8 @@ public class VotacaoRepositoryDAOTest {
     }
 
     private VotacaoEntity gerarVotacaoEntityParaTeste() {
-        VotacaoEntity votacaoEntity = new VotacaoEntity(null, "S", sessaoEntity);
+        Long associadoId = 1L;
+        VotacaoEntity votacaoEntity = new VotacaoEntity(null, "S", sessaoEntity, associadoId);
         votacaoRepositoryDAO.save(votacaoEntity);
         return votacaoEntity;
     }

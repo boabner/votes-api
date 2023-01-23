@@ -41,9 +41,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), apiErrorMessage.getStatus());
     }
 
-    @ExceptionHandler(SessaoEncerradaOuNaoEncontradaException.class)
+    @ExceptionHandler(VotingSesssionClosedOrNotFoundException.class)
     public ResponseEntity<Object> handleSessaoEncerradaException(
-            SessaoEncerradaOuNaoEncontradaException exception, WebRequest request) {
+            VotingSesssionClosedOrNotFoundException exception, WebRequest request) {
 
         ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
 
@@ -59,5 +59,22 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), apiErrorMessage.getStatus());
     }
 
+    @ExceptionHandler(MemberDoubleVoteAttemptException.class)
+    public ResponseEntity<Object> handleSessaoEncerradaException(
+            MemberDoubleVoteAttemptException exception, WebRequest request) {
+
+        ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.NOT_ACCEPTABLE, exception.getMessage());
+
+        return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), apiErrorMessage.getStatus());
+    }
+
+    @ExceptionHandler(DuplicateSessionOpenAttemptException.class)
+    public ResponseEntity<Object> handleSessaoEncerradaException(
+            DuplicateSessionOpenAttemptException exception, WebRequest request) {
+
+        ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.NOT_ACCEPTABLE, exception.getMessage());
+
+        return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), apiErrorMessage.getStatus());
+    }
 
 }

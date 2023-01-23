@@ -36,15 +36,16 @@ public class VotacaoControllerTest {
     VotacaoRepositoryDAO votacaoRepositoryDAO;
 
     private Long sessaoId;
+    private Long associadoId;
     @Before
     public void init() {
         sessaoId = 1L;
     }
 
     @Test
-    public void deveRetornarCreatedAoChamarRegistrarVotoComEscolhaEComSessaoId() throws Exception {
+    public void deveRetornarCreatedAoChamarRegistrarVotoComEscolhaEComAssociadoIdEComSessaoId() throws Exception {
 
-        VotacaoForm votacao = new VotacaoForm(sessaoId, "S");
+        VotacaoForm votacao = new VotacaoForm(sessaoId, "S", associadoId);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/votacao/registrar-voto")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -55,9 +56,9 @@ public class VotacaoControllerTest {
     }
 
     @Test
-    public void deveRetornarBadRequestAoChamarRegistrarVotoComEscolhaESemSessaoId() throws Exception {
+    public void deveRetornarBadRequestAoChamarRegistrarVotoComEscolhaEComAssociadoIdESemSessaoId() throws Exception {
 
-        VotacaoForm votacao = new VotacaoForm(null, "S");
+        VotacaoForm votacao = new VotacaoForm(null, "S" , associadoId);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/votacao/registrar-voto")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,7 +71,7 @@ public class VotacaoControllerTest {
     @Test
     public void deveRetornarBadRequestAoChamarRegistrarVotoComEscolhaInvalidaEComSessaoId() throws Exception {
 
-        VotacaoForm votacao = new VotacaoForm(sessaoId, "D");
+        VotacaoForm votacao = new VotacaoForm(sessaoId, "D", associadoId);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/votacao/registrar-voto")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -78,7 +79,7 @@ public class VotacaoControllerTest {
                 .content(JsonUtils.asJsonString(votacao))
         ).andExpect(status().isBadRequest());
 
-        votacao = new VotacaoForm(sessaoId, "s");
+        votacao = new VotacaoForm(sessaoId, "s", associadoId);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/votacao/registrar-voto")
                 .contentType(MediaType.APPLICATION_JSON)

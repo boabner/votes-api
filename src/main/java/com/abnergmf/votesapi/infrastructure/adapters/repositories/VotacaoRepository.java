@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.abnergmf.votesapi.application.error.MemberDoubleVoteAttemptException;
 import com.abnergmf.votesapi.application.error.VoteAPIObjectNotFoundException;
-import com.abnergmf.votesapi.domain.Votacao;
+import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
+import com.abnergmf.votesapi.domain.votacao;
 import com.abnergmf.votesapi.domain.ports.repositories.VotacaoRepositoryPort;
 import com.abnergmf.votesapi.infrastructure.adapters.converter.VotacaoConverter;
 import com.abnergmf.votesapi.infrastructure.adapters.entities.SessaoEntity;
@@ -28,12 +30,12 @@ public class VotacaoRepository implements VotacaoRepositoryPort {
     private SessaoRepositoryDAO sessaoRepositoryDAO;
 
     @Override
-    public List<Votacao> listarTodosPorSessaoId(Long sessaoId) {
+    public List<votacao> listarTodosPorSessaoId(Long sessaoId) {
         return votacaoRepositoryDAO.findAllBySessaoEntityId(sessaoId).stream().map(votacaoConverter::toVotacao).collect((Collectors.toList()));
     }
 
     @Override
-    public Votacao salvar(Votacao votacao) {
+    public votacao salvar(votacao votacao) {
 
         Optional<SessaoEntity> optionalSessaoEntity = sessaoRepositoryDAO.findById(votacao.getSessaoId());
         if (optionalSessaoEntity.isPresent()) {
@@ -47,4 +49,13 @@ public class VotacaoRepository implements VotacaoRepositoryPort {
             throw new VoteAPIObjectNotFoundException("Sessão", votacao.getSessaoId());
         }
     }
+
+    @Override
+    public boolean validarVotoValidoPorAssociadoIdESessaoId(VotacaoDTO votacaoDTO) {
+        if (votacaoRepositoryDAO.findByAssociadoIdAndSessaoEntityId(votacaoDTO.getAssociadoId(), votacaoDTO.getSessaoId()) == null) {
+            return true;
+        }
+        throw new MemberDoubleVoteAttemptException(votacaoDTO.getAssociadoId());
+    }
+
 }

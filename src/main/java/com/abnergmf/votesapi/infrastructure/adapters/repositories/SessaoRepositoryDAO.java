@@ -17,4 +17,6 @@ public interface SessaoRepositoryDAO extends JpaRepository<SessaoEntity, Long> {
     List<SessaoEntity> findAllByDataEncerramentoAfter(Date dataAtual);
 
     List<SessaoEntity> findAllByPautaEntityId(Long pautaId);
+
+    SessaoEntity findByPautaEntityId(Long pautaId);
 }

@@ -2,22 +2,25 @@ package com.abnergmf.votesapi.domain;
 
 import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
 
-public class Votacao {
+public class votacao {
 
     private Long id;
     private String escolha;
     private Long sessaoId;
+    private Long associadoId;
 
-    public Votacao(Long id, String escolha, Long sessaoId) {
+    public votacao(Long id, String escolha, Long sessaoId, Long associadoId) {
         this.id = id;
         this.escolha = escolha;
         this.sessaoId = sessaoId;
+        this.associadoId = associadoId;
     }
 
-    public Votacao(VotacaoDTO votacaoDTO) {
+    public votacao(VotacaoDTO votacaoDTO) {
         this.id = votacaoDTO.getId();
         this.escolha = votacaoDTO.getEscolha();
         this.sessaoId = votacaoDTO.getSessaoId();
+        this.associadoId = votacaoDTO.getAssociadoId();
     }
 
     public Long getId() {
@@ -40,8 +43,8 @@ public class Votacao {
         return escolha;
     }
 
-    public void setEscolha(String escolha) {
-        this.escolha = escolha;
+    public Long getAssociadoId() {
+        return associadoId;
     }
 
 }
