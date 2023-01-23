@@ -33,6 +33,7 @@ Serviço de criação de pautas para votação entre cooperados e associados.
 
 - O projeto foi desenvolvido e disponibilizado seguindo a estratégia de fluxo de trabalho proposto pelo Git Flow.
 
+- Inicialmente o projeto foi construído para persistir utilizando Postgres como banco de dados, entretanto essa decisão foi alterada para H2 dado o escopo atual que visa testar a aplicação sem maiore dificuldades, porém, para utilizarmos o Postgres ou outro sgbd, basta alterarmos as propriedades da aplicação apontando para novo banco de dados e adequar o migration no que for necessário, sem maiores impactos.
 
 ## Estrutura de Pastas
 
