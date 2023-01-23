@@ -44,7 +44,6 @@ public class VotacaoRepository implements VotacaoRepositoryPort {
             return votacao;
         }
         else {
-            logger.info("Sessão com id " + votacao.getSessaoId() + " não encontrada.");
             throw new VoteAPIObjectNotFoundException("Sessão", votacao.getSessaoId());
         }
     }

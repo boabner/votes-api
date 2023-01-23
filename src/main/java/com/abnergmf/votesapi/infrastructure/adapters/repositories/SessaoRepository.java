@@ -53,7 +53,6 @@ public class SessaoRepository implements SessaoRepositoryPort {
             return sessaoConverter.toSessao(sessaoEntityOptional.get());
         }
         else {
-            logger.info("Sessao com id " + idSessao + " não encontrado.");
             throw new VoteAPIObjectNotFoundException("Sessao", idSessao);
         }
     }
@@ -70,8 +69,7 @@ public class SessaoRepository implements SessaoRepositoryPort {
             return sessao;
         }
         else {
-            logger.info("Pauta com id " + sessao.getPautaId() + " não encontrada.");
-            throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
+            throw new VoteAPIObjectNotFoundException("Pauta", sessao.getPautaId());
         }
     }
 
