@@ -289,4 +289,4 @@ curl --location --request GET 'http://localhost:8081/votacao/resultado/sessao=3'
 
 ## Modelagem inicial
 
-<span style="display:block;text-align:center">![Dados inicias do projeto](docs/arquitetura/modelagem-inicial.jpg)</span>
+<span style="display:block;text-align:center">![Dados inicias do projeto](docs/modelagem-inicial.jpg)</span>
