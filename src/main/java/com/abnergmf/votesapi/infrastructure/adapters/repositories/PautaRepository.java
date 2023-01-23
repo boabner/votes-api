@@ -39,7 +39,6 @@ public class PautaRepository  implements PautaRepositoryPort {
             return pautaConverter.toPauta(pautaEntityOptional.get());
         }
         else {
-            logger.info("Pauta com id " + idPauta + " não encontrado.");
             throw new VoteAPIObjectNotFoundException("Pauta", idPauta);
         }
     }
@@ -69,7 +68,6 @@ public class PautaRepository  implements PautaRepositoryPort {
                 pautaRepositoryDAO.save(pautaEntity);
             }
             else {
-                logger.info("Pauta com id " + pauta.getId() + " não encontrado.");
                 throw new VoteAPIObjectNotFoundException("Pauta", pauta.getId());
             }
 
@@ -88,7 +86,6 @@ public class PautaRepository  implements PautaRepositoryPort {
                 return true;
             }
             else {
-                logger.info(" com id " + pauta.getId() + " não encontrado.");
                 throw new VoteAPIObjectNotFoundException("Pauta", pauta.getId());
             }
         }
