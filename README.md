@@ -19,6 +19,8 @@ Serviço de criação de pautas para votação entre cooperados e associados.
 
 - Apache Log4J
 
+- Flyway migration
+
 ## Banco de Dados
 
 - H2Database
