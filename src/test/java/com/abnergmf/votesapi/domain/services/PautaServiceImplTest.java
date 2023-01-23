@@ -1,8 +1,9 @@
-package com.abnergmf.votesapi.domain;
+package com.abnergmf.votesapi.domain.services;
 
 import static org.mockito.Mockito.when;
 
 import com.abnergmf.votesapi.application.error.VoteAPIObjectNotFoundException;
+import com.abnergmf.votesapi.domain.Pauta;
 import com.abnergmf.votesapi.domain.adapters.services.PautaServiceImpl;
 import com.abnergmf.votesapi.domain.dtos.PautaDTO;
 import com.abnergmf.votesapi.infrastructure.adapters.repositories.PautaRepository;
