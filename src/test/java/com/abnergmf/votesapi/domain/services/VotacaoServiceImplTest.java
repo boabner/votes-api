@@ -1,10 +1,11 @@
-package com.abnergmf.votesapi.domain;
+package com.abnergmf.votesapi.domain.services;
 
 import static org.mockito.Mockito.when;
 
 import com.abnergmf.votesapi.application.error.VoteAPIObjectNotFoundException;
 import com.abnergmf.votesapi.domain.adapters.services.VotacaoServiceImpl;
 import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
+import com.abnergmf.votesapi.domain.votacao;
 import com.abnergmf.votesapi.infrastructure.adapters.repositories.VotacaoRepository;
 import org.junit.Before;
 import org.junit.Test;
