@@ -23,8 +23,16 @@ Serviço de criação de pautas para votação entre cooperados e associados.
 
 - H2Database
 
+## Arquitetura, padrões e afins
 
-## Arquitetura e Estrutura de Pastas
+- Devido ao escopo da aplicação e sua provável demanda, definimos que a arquitetura da aplicação deve seguir os conceitos definidos e conhecidos como Port and Adapters ou Arquitetura Hexagonal seguindo a definição de isolarmos a camada de negócio das tecnologias e relacionados que podem e provavelmente sofrerão alterações no futuro, o que é esperado para a maior parte das aplicações atuais.
+
+- O princípio de responsabilidade única foi utilizado para orientar o desenvolvimento das features.
+
+- O projeto foi desenvolvido e disponibilizado seguindo a estratégia de fluxo de trabalho proposto pelo Git Flow.
+
+
+## Estrutura de Pastas
 
 - Arquitetura hexagonal ou Ports and Adapters
 
@@ -290,3 +298,8 @@ curl --location --request GET 'http://localhost:8081/votacao/resultado/sessao=3'
 ## Modelagem inicial
 
 <span style="display:block;text-align:center">![Dados inicias do projeto](docs/modelagem-inicial.jpg)</span>
+
+## Roadmap
+
+- Definir o Callback das URLs de criação
+- Dockerizar o ambiente
