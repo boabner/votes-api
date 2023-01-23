@@ -5,16 +5,19 @@ public class VotacaoDTO {
     private Long id;
     private String escolha;
     private Long sessaoId;
+    private Long associadoId;
 
-    public VotacaoDTO(Long id, String escolha, Long sessaoId) {
+    public VotacaoDTO(Long id, String escolha, Long sessaoId, Long associadoId) {
         this.id = id;
         this.escolha = escolha;
         this.sessaoId = sessaoId;
+        this.associadoId = associadoId;
     }
 
-    public VotacaoDTO(String escolha, Long sessaoId) {
+    public VotacaoDTO(String escolha, Long sessaoId, Long associadoId) {
         this.escolha = escolha;
         this.sessaoId = sessaoId;
+        this.associadoId = associadoId;
     }
 
     public Long getId() {
@@ -37,8 +40,7 @@ public class VotacaoDTO {
         return escolha;
     }
 
-    public void setEscolha(String escolha) {
-        this.escolha = escolha;
+    public Long getAssociadoId() {
+        return associadoId;
     }
-
 }

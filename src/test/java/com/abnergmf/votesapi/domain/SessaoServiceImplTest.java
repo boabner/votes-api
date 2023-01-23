@@ -49,8 +49,8 @@ public class SessaoServiceImplTest {
 
         SessaoDTO sessaoDTO = new SessaoDTO(pautaId, dataEncerramento);
 
-        when(sessaoServiceImpl.abrirSessao(sessaoDTO)).thenReturn(sessao);
-        Sessao sessaoAberta = sessaoServiceImpl.abrirSessao(sessaoDTO);
+        when(sessaoServiceImpl.processarAberturaDeSessao(sessaoDTO)).thenReturn(sessao);
+        Sessao sessaoAberta = sessaoServiceImpl.processarAberturaDeSessao(sessaoDTO);
 
         Assert.notNull(sessaoAberta);
     }
@@ -60,20 +60,20 @@ public class SessaoServiceImplTest {
 
         SessaoDTO sessaoDTO = new SessaoDTO(pautaId, null);
 
-        when(sessaoServiceImpl.abrirSessao(sessaoDTO)).thenReturn(sessao);
-        Sessao sessaoAberta = sessaoServiceImpl.abrirSessao(sessaoDTO);
+        when(sessaoServiceImpl.processarAberturaDeSessao(sessaoDTO)).thenReturn(sessao);
+        Sessao sessaoAberta = sessaoServiceImpl.processarAberturaDeSessao(sessaoDTO);
 
         Assert.notNull(sessaoAberta);
     }
 
     @Test(expected = VoteAPIObjectNotFoundException.class)
-    public void deveRetornarVoteAPIObjectNotFoundExceptionAoAbrirSessaoComPautaIdInexistente() {
+    public void deveRetornarExceptionAoAbrirSessaoComPautaIdInexistente() {
 
         SessaoDTO sessaoDTO = new SessaoDTO(-1L, dataEncerramento);
 
-        when(sessaoServiceImpl.abrirSessao(sessaoDTO)).thenThrow(new VoteAPIObjectNotFoundException("Sessao", -1L));
+        when(sessaoServiceImpl.processarAberturaDeSessao(sessaoDTO)).thenThrow(new VoteAPIObjectNotFoundException("Sessao", -1L));
 
-        sessaoServiceImpl.abrirSessao(sessaoDTO);
+        sessaoServiceImpl.processarAberturaDeSessao(sessaoDTO);
 
     }
 

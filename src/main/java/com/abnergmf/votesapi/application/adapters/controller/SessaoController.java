@@ -32,7 +32,7 @@ public class SessaoController {
     public ResponseEntity<SessaoDTO> abrirSessao(
             @RequestBody @Valid SessaoForm sessaoForm
     ) {
-        sessaoServicePort.abrirSessao(
+        sessaoServicePort.processarAberturaDeSessao(
                 sessaoServicePort.prepararAberturaSessao(sessaoFormConverter.sessaoToSessaoDTO(sessaoForm))
         );
         return new ResponseEntity<>(HttpStatus.CREATED);

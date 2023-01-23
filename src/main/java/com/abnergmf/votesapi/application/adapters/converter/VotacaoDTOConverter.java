@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class VotacaoDTOConverter {
 
     public VotacaoDTO votacaoFormToVotacaoDTO(VotacaoForm votacaoForm) {
-        return new VotacaoDTO(votacaoForm.getEscolha(), votacaoForm.getSessaoId());
+        return new VotacaoDTO(votacaoForm.getEscolha(), votacaoForm.getSessaoId(), votacaoForm.getAssociadoId());
     }
 
 }

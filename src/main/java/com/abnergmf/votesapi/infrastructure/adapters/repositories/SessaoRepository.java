@@ -39,9 +39,10 @@ public class SessaoRepository implements SessaoRepositoryPort {
                 .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
     }
 
-    public List<Sessao> listarSessoesPorPautaId(Long pautaId) {
-        return sessaoRepositoryDAO.findAllByPautaEntityId(pautaId)
-                .stream().map(sessaoConverter::toSessao).collect((Collectors.toList()));
+    @Override
+    public Sessao buscarSessaoPorPautaId(Long pautaId) {
+        SessaoEntity sessaoEntity = sessaoRepositoryDAO.findByPautaEntityId(pautaId);
+        return sessaoEntity != null ? sessaoConverter.toSessao(sessaoEntity) : null;
     }
 
     @Override

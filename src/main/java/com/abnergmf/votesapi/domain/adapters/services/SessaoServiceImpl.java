@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.abnergmf.votesapi.application.adapters.converter.SessaoResultadoDTOConverter;
 import com.abnergmf.votesapi.application.adapters.converter.SessaoDTOConverter;
+import com.abnergmf.votesapi.application.error.DuplicateSessionOpenAttemptException;
 import com.abnergmf.votesapi.application.util.DateUtil;
 import com.abnergmf.votesapi.domain.Sessao;
 import com.abnergmf.votesapi.domain.dtos.SessaoResultadoDTO;
@@ -38,14 +39,22 @@ public class SessaoServiceImpl implements SessaoServicePort {
     }
 
     @Override
-    public Sessao abrirSessao(SessaoDTO sessaoDTO) {
+    public Sessao processarAberturaDeSessao(SessaoDTO sessaoDTO) {
+        Sessao sessao = sessaoRepository.buscarSessaoPorPautaId(sessaoDTO.getPautaId());
+        if (sessao == null) {
+            return abrirSessao(sessaoDTO);
+        }
+        throw new DuplicateSessionOpenAttemptException(sessao.getId(), sessao.getPautaId());
+    }
+
+    private Sessao abrirSessao(SessaoDTO sessaoDTO) {
 
         try {
-
             Sessao sessao = new Sessao(sessaoDTO);
-            sessaoRepository.salvar(sessao);
-            return sessao;
 
+            sessaoRepository.salvar(sessao);
+
+            return sessao;
         } finally {
             logger.info("Sessão para a pauta " + sessaoDTO.getPautaId() + " aberta com sucesso em " + DateUtil.converterDataEmString(new Date()));
         }
@@ -73,9 +82,9 @@ public class SessaoServiceImpl implements SessaoServicePort {
     }
 
     @Override
-    public List<SessaoDTO> listarSessoesPorPautaId(Long pautaId) {
-        List<Sessao> listSessaos = sessaoRepository.listarSessoesPorPautaId(pautaId);
-        return listSessaos.stream().map(sessaoDTOConverter::sessaoToSessaoDTO).collect(Collectors.toList());
+    public SessaoDTO buscarSessaoPorPautaId(Long pautaId) {
+        Sessao sessao = sessaoRepository.buscarSessaoPorPautaId(pautaId);
+        return sessaoDTOConverter.sessaoToSessaoDTO(sessao);
     }
 
 }

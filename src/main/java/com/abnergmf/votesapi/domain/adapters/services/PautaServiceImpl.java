@@ -47,7 +47,7 @@ public class PautaServiceImpl implements PautaServicePort {
 
     @Override
     public Boolean processarPedidoDeRemocao(Long id) {
-        if (sessaoServicePort.listarSessoesPorPautaId(id).isEmpty()) {
+        if (sessaoServicePort.buscarSessaoPorPautaId(id) == null) {
             return removerPauta(id);
         }
         throw new PautaAlreadyStartedException(id);

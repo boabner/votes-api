@@ -9,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.abnergmf.votesapi.domain.Votacao;
-
 @Entity
 @Table(name = "Votacao")
 public class VotacaoEntity {
@@ -18,8 +16,8 @@ public class VotacaoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String escolha;
+    private Long associadoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sessao_id")
@@ -29,10 +27,11 @@ public class VotacaoEntity {
 
     }
 
-    public VotacaoEntity(Long id, String escolha, SessaoEntity sessaoEntity) {
+    public VotacaoEntity(Long id, String escolha, SessaoEntity sessaoEntity, Long associadoId) {
         this.id = id;
         this.escolha = escolha;
         this.sessaoEntity = sessaoEntity;
+        this.associadoId = associadoId;
     }
 
     public Long getId() {
@@ -49,6 +48,10 @@ public class VotacaoEntity {
 
     public SessaoEntity getSessaoEntity() {
         return sessaoEntity;
+    }
+
+    public Long getAssociadoId() {
+        return associadoId;
     }
 
 }

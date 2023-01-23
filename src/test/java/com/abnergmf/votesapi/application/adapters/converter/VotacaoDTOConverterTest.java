@@ -22,19 +22,20 @@ public class VotacaoDTOConverterTest {
     private VotacaoDTOConverter votacaoConverter;
 
     private Long sessaoId;
+    private Long associadoId;
     private String escolha;
-    private Date dataEncerramento;
     @Before
     public void init() {
         sessaoId = 1L;
+        associadoId = 1L;
         escolha = "S";
     }
 
     @Test
     public void deveRetornarVotacaoDTOAoChamarVotacaoFormToVotacaoDTO() {
 
-        VotacaoForm votacaoForm = new VotacaoForm(sessaoId, escolha);
-        VotacaoDTO votacaoDTO = new VotacaoDTO(escolha, sessaoId);
+        VotacaoForm votacaoForm = new VotacaoForm(sessaoId, escolha, associadoId);
+        VotacaoDTO votacaoDTO = new VotacaoDTO(escolha, sessaoId, associadoId);
 
         when(votacaoConverter.votacaoFormToVotacaoDTO(votacaoForm)).thenReturn(votacaoDTO);
 
