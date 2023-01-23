@@ -21,17 +21,12 @@ public class Pauta {
         return id;
     }
 
-
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public PautaDTO toPautaDTO() {
-        return new PautaDTO(this.id, this.nome);
     }
 
 }

@@ -19,32 +19,26 @@ public class PautaEntity {
     private String nome;
 
     public PautaEntity() {
+
     }
 
-    public PautaEntity(Pauta pauta) {
-        this.id = pauta.getId();
-        this.nome = pauta.getNome();
+    public PautaEntity(String nome) {
+        this.nome = nome;
+    }
+
+    public PautaEntity(Long id, String nome) {
+        this.id = id;
+        this.nome = nome;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Pauta toPauta() {
-        return new Pauta(id, nome);
-    }
     public void atualizar(Pauta pauta) {
         this.nome = pauta.getNome();
     }
