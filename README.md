@@ -251,6 +251,19 @@ curl --location --request GET 'http://localhost:8081/votacao/resultado/sessao=3'
 --data-raw ''
 ```
 
+## Detalhamento dos campos da API
+
+  | Field | Type     | Validação                | Obrigatório | Máximo de caracteres | Formato |
+  | :-------- | :------- | :------------------------- | :------------------------- | :---------------- | :------------- |
+  | `pautaId` | `integer` | Não deve ser NULL. | Sim | . | . |
+  | `sessaoId` | `integer` | Não deve ser NULL. | Sim | . | . |
+  | `associadoId` | `integer` | Não deve ser NULL. | Sim | . | . |
+  | `nome` | `string` | Não deve ser NULL. Não deve ser vazio. | Sim | 150 | . |
+  | `escolha` | `string` | Não deve ser NULL. Não deve ser vazio. Deve ser maiúsculo. | Sim | 1 | 'S' ou 'N' |
+  | `dataEncerramento` | `string` | Não deve ser NULL. Não deve ser vazio. | Não | . | dd/MM/yyyy HH:mm:ss |
+  
+
+
 
 ## Trabalhando com o projeto
 
