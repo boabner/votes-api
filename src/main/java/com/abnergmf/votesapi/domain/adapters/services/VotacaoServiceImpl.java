@@ -2,6 +2,7 @@ package com.abnergmf.votesapi.domain.adapters.services;
 
 import java.util.List;
 
+import com.abnergmf.votesapi.application.error.SessaoEncerradaOuNaoEncontradaException;
 import com.abnergmf.votesapi.domain.Votacao;
 import com.abnergmf.votesapi.domain.dtos.ResultadoVotacaoDTO;
 import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
@@ -12,19 +13,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class VotacaoServiceImpl implements VotacaoServicePort {
 
+    @Autowired
+    private SessaoServicePort sessaoServicePort;
     private final VotacaoRepositoryPort votacaoRepository;
-
 
     public VotacaoServiceImpl(VotacaoRepositoryPort votacaoRepository) {
         this.votacaoRepository = votacaoRepository;
     }
 
     @Override
-    public Boolean registrarVoto(VotacaoDTO votacaoDTO) {
+    public Votacao processarVoto(VotacaoDTO votacaoDTO) {
+
+        if (sessaoServicePort.validarSessaoAntesDeProsseguir(votacaoDTO.getSessaoId())) {
+            return registrarVoto(votacaoDTO);
+        }
+        else {
+            throw new SessaoEncerradaOuNaoEncontradaException(votacaoDTO.getSessaoId());
+        }
+
+    }
+
+    private Votacao registrarVoto(VotacaoDTO votacaoDTO) {
 
         Votacao votacao = new Votacao(votacaoDTO);
         votacaoRepository.salvar(votacao);
-        return true;
+
+        return votacao;
     }
 
     @Override
@@ -63,7 +77,10 @@ public class VotacaoServiceImpl implements VotacaoServicePort {
     }
 
     private List<Votacao> listarVotosPorSessionId(Long sessaoId) {
-        return votacaoRepository.listarTodosPorSessaoId(sessaoId);
+        if (sessaoServicePort.validarSessaoAntesDeProsseguir(sessaoId)) {
+            return votacaoRepository.listarTodosPorSessaoId(sessaoId);
+        }
+        throw new SessaoEncerradaOuNaoEncontradaException(sessaoId);
     }
 
 }

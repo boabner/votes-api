@@ -5,10 +5,8 @@ import javax.validation.Valid;
 
 import com.abnergmf.votesapi.application.adapters.controller.form.VotacaoForm;
 import com.abnergmf.votesapi.application.adapters.converter.VotacaoDTOConverter;
-import com.abnergmf.votesapi.application.error.SessaoEncerradaOuNaoEncontradaException;
 import com.abnergmf.votesapi.domain.dtos.ResultadoVotacaoDTO;
 import com.abnergmf.votesapi.domain.dtos.VotacaoDTO;
-import com.abnergmf.votesapi.domain.ports.interfaces.SessaoServicePort;
 import com.abnergmf.votesapi.domain.ports.interfaces.VotacaoServicePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,8 +26,6 @@ public class VotacaoController {
     private VotacaoServicePort votacaoServicePort;
     @Autowired
     private VotacaoDTOConverter votacaoFormConverter;
-    @Autowired
-    private SessaoServicePort sessaoServicePort;
 
     @PostMapping("/registrar-voto")
     @Transactional
@@ -37,14 +33,10 @@ public class VotacaoController {
             @RequestBody @Valid VotacaoForm votacaoForm
     ) {
 
-        VotacaoDTO votacaoDTO = votacaoFormConverter.toVotacaoDTO(votacaoForm);
+        VotacaoDTO votacaoDTO = votacaoFormConverter.votacaoFormToVotacaoDTO(votacaoForm);
 
-        if (sessaoServicePort.verificarSessaoAberta(votacaoDTO.getSessaoId())) {
-            votacaoServicePort.registrarVoto(votacaoDTO);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-
-        throw new SessaoEncerradaOuNaoEncontradaException(votacaoDTO.getSessaoId());
+        votacaoServicePort.processarVoto(votacaoDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/resultado/sessao={sessaoId}")

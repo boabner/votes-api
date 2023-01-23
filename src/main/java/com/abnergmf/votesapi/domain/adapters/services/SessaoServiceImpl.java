@@ -43,31 +43,11 @@ public class SessaoServiceImpl implements SessaoServicePort {
     }
 
     @Override
-    public Boolean verificarSessaoAberta(Long sessaoId) {
+    public Boolean validarSessaoAntesDeProsseguir(Long sessaoId) {
 
         Sessao sessao = sessaoRepository.getById(sessaoId);
 
         return sessao.getDataEncerramento().compareTo(new Date()) != -1;
-    }
-
-    @Override
-    public Sessao atualizarSessao(Long id, SessaoDTO sessaoDTO) {
-
-        Sessao sessao = sessaoRepository.getById(id);
-
-        sessao.setDataEncerramento(sessaoDTO.getDataEncerramento());
-
-        sessaoRepository.atualizar(sessao);
-
-        return sessao;
-    }
-
-    @Override
-    public Boolean removerSessao(Long id)  {
-
-        Sessao sessao = sessaoRepository.getById(id);
-
-        return sessaoRepository.remover(sessao);
     }
 
     @Override

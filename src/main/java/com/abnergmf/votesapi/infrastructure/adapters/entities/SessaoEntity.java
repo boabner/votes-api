@@ -63,7 +63,5 @@ public class SessaoEntity implements Serializable {
     public PautaEntity getPautaEntity() {
         return pautaEntity;
     }
-    public void atualizar(Sessao sessao) {
-        this.dataEncerramento = sessao.getDataEncerramento();
-    }
+
 }

@@ -14,8 +14,6 @@ import com.abnergmf.votesapi.utils.JsonUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,7 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SessaoController.class)
-public class SessaoControlleTest {
+public class SessaoControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -83,52 +81,6 @@ public class SessaoControlleTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(JsonUtils.asJsonString(sessao))
-        ).andExpect(status().isBadRequest());
-
-    }
-
-    @Test
-    public void deveRetornarOkAoChamarAtualizarSessaoComDataEncerramento() throws Exception {
-
-        SessaoAlterarForm sessao = new SessaoAlterarForm(dataEncerramento);
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/sessao/{id}", pautaId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(JsonUtils.asJsonString(sessao))
-        ).andExpect(status().isOk());
-
-    }
-
-    @Test
-    public void deveRetornarBadRequestAoChamarAtualizarSessaoComDataEncerramentoNull() throws Exception {
-
-        SessaoAlterarForm sessao = new SessaoAlterarForm(null);
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/sessao/{id}", pautaId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(JsonUtils.asJsonString(sessao))
-        ).andExpect(status().isBadRequest());
-
-    }
-
-    @Test
-    public void deveRetornarOkAoChamarRemoverSessaoComIdExistente() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.delete("/sessao/{id}", pautaId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
-
-    }
-
-    @Test
-    public void deveRetornarBadRequestAoChamarRemoverSessaoComIdInexistente() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/sessao/{id}", -1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
 
     }

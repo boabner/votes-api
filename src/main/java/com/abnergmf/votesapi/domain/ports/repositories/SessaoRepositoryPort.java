@@ -9,6 +9,4 @@ public interface SessaoRepositoryPort {
     List<Sessao> listarSessoesAtivas();
     Sessao getById(Long id);
     Sessao salvar(Sessao sessao);
-    Sessao atualizar(Sessao sessao);
-    Boolean remover(Sessao sessao);
 }

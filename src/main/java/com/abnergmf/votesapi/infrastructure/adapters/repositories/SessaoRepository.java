@@ -72,44 +72,4 @@ public class SessaoRepository implements SessaoRepositoryPort {
         }
     }
 
-    @Override
-    public Sessao atualizar(Sessao sessao) {
-
-        SessaoEntity sessaoEntity;
-        if (!Objects.isNull(sessao.getId())) {
-
-            Optional<SessaoEntity> optionalSessao = sessaoRepositoryDAO.findById(sessao.getId());
-
-            if (optionalSessao.isPresent()) {
-
-                sessaoEntity = optionalSessao.get();
-                sessaoEntity.atualizar(sessao);
-                sessaoRepositoryDAO.save(sessaoEntity);
-
-            }
-            else {
-                logger.info("Sessao com id " + sessao.getId() + " não encontrado.");
-                throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
-            }
-        }
-        return sessao;
-    }
-
-    @Override
-    public Boolean remover(Sessao sessao) {
-        SessaoEntity sessaoEntity;
-        if (!Objects.isNull(sessao.getId())) {
-            Optional<SessaoEntity> optionalSessao = sessaoRepositoryDAO.findById(sessao.getId());
-            if (optionalSessao.isPresent()) {
-                sessaoEntity = optionalSessao.get();
-                sessaoRepositoryDAO.delete(sessaoEntity);
-                return true;
-            }
-            else {
-                logger.info(" com id " + sessao.getId() + " não encontrado.");
-                throw new VoteAPIObjectNotFoundException("Sessao", sessao.getId());
-            }
-        }
-        return false;
-    }
 }
