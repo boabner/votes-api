@@ -1,70 +1,278 @@
 
 # Votes API
 
-Gerenciamento de sessões para votações entre cooperados
+Serviço de criação de pautas para votação entre cooperados e associados.
+
+## Tecnologias
+
+- Java 11
+
+- Spring Boot Web
+
+- Spring Boot Data JPA
+
+- Spring Boot Test
+
+- Spring Boot Validator
+
+- Spring Boot Actuator
+
+- Apache Log4J
+
+## Banco de Dados
+
+- H2Database
 
 
-## Tech Stack
+## Arquitetura e Estrutura de Pastas
 
-**Language:** Java 11
+- Arquitetura hexagonal ou Ports and Adapters
 
-**Stack:** Spring Boot, Web, Data, Test e Bean Validation, Log4J,
-
-**Dados:** Postgres, H2 para testes
-
-**Healt check:**
-
-
-## Installation
-
-Install my-project with npm
-
-```bash
-  npm install my-project
-  cd my-project
 ```
-    
-## API Reference
+.
+|-- data
+|-- src
+    |-- main
+    |   |-- java
+    |   |   `-- com.abnegmf.votesapi
+    |   |       |-- application
+    |   |           `-- adapters
+    |   |               |-- controller
+    |   |                   |-- form
+    |   |               |-- converter
+    |   |           `-- error
+    |   |           `-- util
+    |   |       |-- domain
+    |   |           `-- adapters
+    |   |               |-- services
+    |   |           `-- dtos
+    |   |           `-- ports
+    |   |               |-- interfaces
+    |   |               |-- repositories
+    |   |       |-- infrastructure
+    |   |           `-- adapters
+    |   |               |-- converter
+    |   |               |-- entities
+    |   |               |-- repositories
+    |   |           `-- config
+    |   `-- resources
+    |       `-- db
+    |       `   `-- migration
+    |
+    |-- test
+    |   |-- java
+    |   |   `-- com.abnegmf.votesapi
+    |   |       |-- application
+    |   |           `-- adapters
+    |   |               |-- controller
+    |   |               |-- converter
+    |   |       |-- domain
+    |   |           `-- adapters
+    |   |               |-- services
+    |   |       |-- infrastructure
+    |   |           `-- adapters
+    |   |               |-- converter
+    |   |               |-- repositories
+    |   |       |-- utils
+```
 
-#### Get all items
+## Endpoints
 
+#### Pauta
+
+Criar Pauta
 ```http
-  GET /api/items
+  POST /pautas
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+  | Body Field | Type     | Description                |
+  | :-------- | :------- | :------------------------- |
+  | `nome` | `string` | **Obrigatório**. Nome da pauta para votação |
 
-#### Get item
+- `Exemplo curl`
+ 
+```bash
+curl --location --request POST 'http://localhost:8081/pautas' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97' \
+--data-raw '{
+    "nome": "Pauta Teste"
+}'
+```
 
+Alterar Pauta
 ```http
-  GET /api/items/${id}
+  PUT /pautas/{id}
 ```
+  | Parameter | Type     | Description                |
+  | :-------- | :------- | :------------------------- |
+  | `id` | `integer` | **Obrigatório**. Id da pauta a ser alterada. |
+  
+  | Body Field | Type     | Description                |
+  | :-------- | :------- | :------------------------- |
+  | `nome` | `string` | **Obrigatório**. Nome da pauta para votação. |
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
-
-#### add(num1, num2)
-
-Takes two numbers and returns the sum.
-
-
-## Deployment
-
-To deploy this project run
-
+- `Exemplo curl`
+ 
 ```bash
-  npm run deploy
+curl --location --request PUT 'http://localhost:8081/pautas/1' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97' \
+--data-raw '{
+    "nome": "Alterando pauta de teste"
+}'
 ```
 
+Remover Pauta
+```http
+  DELETE /pautas/{id}
+```
 
-## Running Tests
+  | Parameter | Type     | Description                |
+  | :-------- | :------- | :------------------------- |
+  | `id` | `string` | **Obrigatório**. Id da pauta a ser removida |
 
-To run tests, run the following command
-
+- `Exemplo curl`
+ 
 ```bash
-  npm run test
+curl --location --request DELETE 'http://localhost:8081/pautas/1' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97'
 ```
+
+Listar Pautas
+```http
+  GET /pautas
+```
+
+- `Exemplo curl`
+ 
+```bash
+curl --location --request GET 'http://localhost:8081/pautas' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97' \
+--data-raw ''
+```
+
+#### Sessão
+
+Abrir sessão
+```http
+  POST /sessao
+```
+
+  | Body Field | Type     | Description                | Default |
+  | :-------- | :------- | :------------------------- | :------------------------- |
+  | `pautaId` | `integer` | **Obrigatório**. Id da pauta cuja sessão de votos será aberta. | none |
+  | `dataEncerramento` | `string` | **Opcional**. Data de encerramento da sessão em formato 'dd/MM/yyyy hh:MM:ss'.| Data e hora atual com acréscimo de um minuto.|
+
+- `Exemplo curl`
+ 
+```bash
+curl --location --request POST 'http://localhost:8081/sessao' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97' \
+--data-raw '{
+    "pautaId": 1,
+    "dataEncerramento": "23/01/2023 19:00:00"
+}'
+```
+
+Listar sessões ativas
+```http
+  GET /sessao/listar-ativas
+```
+
+- `Exemplo curl`
+ 
+```bash
+curl --location --request GET 'http://localhost:8081/sessao/listar-ativas' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97' \
+--data-raw ''
+```
+
+Listar todas as sessões
+```http
+  GET /sessao
+```
+
+- `Exemplo curl`
+ 
+```bash
+curl --location --request GET 'http://localhost:8081/sessao' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97' \
+--data-raw ''
+```
+
+#### Votação
+
+Registrar voto
+```http
+  POST /votacao/registrar-voto
+```
+
+  | Body Field | Type     | Description                | Default |
+  | :-------- | :------- | :------------------------- | :------------------------- |
+  | `sessaoId` | `integer` | **Obrigatório**. Id da sessão aberta para votação. | none |
+  | `associadoId` | `integer` | **Obrigatório**. Id do associado que fará registrará o voto.|
+  | `escolha` | `string(1)` | **Obrigatório**. Voto a ser escolhido pelo associado, sendo 'S' para sim e 'N' para não.|
+
+- `Exemplo curl`
+ 
+```bash
+curl --location --request POST 'http://localhost:8081/votacao/registrar-voto' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97' \
+--data-raw '{
+    "sessaoId": 1,
+    "associadoId": 3,
+    "escolha": "S"
+}'
+```
+
+Resultado votação
+```http
+  POST /votacao/resultado/sessao=3
+```
+
+  | Parameter | Type     | Description                | Default |
+  | :-------- | :------- | :------------------------- | :------------------------- |
+  | `sessaoId` | `integer` | **Obrigatório**. Id da sessão de votação. | none |
+
+
+- `Exemplo curl`
+ 
+```bash
+curl --location --request GET 'http://localhost:8081/votacao/resultado/sessao=3' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: JSESSIONID=510F29D62595036E09B9E350471D3B97' \
+--data-raw ''
+```
+
+
+## Trabalhando com o projeto
+
+#### Install
+```bash
+  ./mvnw clean install
+```
+
+#### Test
+```bash
+  ./mvnw test
+```
+
+#### Run
+```bash
+  ./mvnw spring-boot:start 
+```
+
+#### Stop
+```bash
+  ./mvnw spring-boot:stop
+```
+
+## Estratégia de deploy
 
